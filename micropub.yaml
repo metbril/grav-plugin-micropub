@@ -1,2 +1,3 @@
 enabled: true
 route: /micropub
+advertise_method: header

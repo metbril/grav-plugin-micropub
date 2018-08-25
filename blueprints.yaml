@@ -34,3 +34,12 @@ form:
       size: medium
       validate:
         required: true
+    advertise_method: 
+      type: select
+      label: PLUGIN_MICROPUB.ADVERTISE_METHOD
+      label: PLUGIN_MICROPUB.ADVERTISE_METHOD_HELP
+      size: small
+      default: header
+      options:
+        header: PLUGIN_MICROPUB.ADVERTISE_HEADER
+        link: PLUGIN_MICROPUB.ADVERTISE_LINK
