@@ -2,6 +2,8 @@
 namespace Grav\Plugin;
 
 use Grav\Common\Plugin;
+use Grav\Common\Uri;
+use Grav\Common\Config\Config;
 use RocketTheme\Toolbox\Event\Event;
 
 /**
@@ -37,27 +39,89 @@ class MicropubPlugin extends Plugin
             return;
         }
 
-        // Enable the main event we are interested in
-        $this->enable([
-            'onPageContentRaw' => ['onPageContentRaw', 0]
-        ]);
+        $config = $this->grav['config'];
+        $enabled = array();
+
+        // ADVERTISE
+        $advertise = $config->get('plugins.micropub.advertise_method');
+        if ($advertise === 'header') {
+            $enabled = $this->addEnable($enabled, 'onPagesInitialized', ['advertiseHeader', 100]);
+        } elseif ($advertise === 'link') {
+            $enabled = $this->addEnable($enabled, 'onOutputGenerated', ['advertiseLink', 100]);
+        }
+
+        $this->enable($enabled);
     }
+    public function advertiseHeader(Event $e) {
+        $uri = $this->grav['uri'];
+        $config = $this->grav['config'];
+        // Check if the current requested URL needs to advertise the endpoint.
+        if (!$this->shouldAdvertise($uri, $config)) {
+            return;
+        }
+        // Build and send the Link header.
+        $root = $uri->rootUrl(true);
+        $route = $config->get('plugins.micropub.route');
+        $url = $root.$route;
+        header('Link: <'.$url.'>; rel="micropub"', false);
+    }
+    public function advertiseLink(Event $e) {
+        $uri = $this->grav['uri'];
+        $config = $this->grav['config'];
 
+        // Check if the current requested URL needs to advertise the endpoint.
+        if (!$this->shouldAdvertise($uri, $config)) {
+            return;
+        }
+        // Then only proceed if we are working on HTML.
+        if ($this->grav['page']->templateFormat() !== 'html') {
+            return;
+        }
+        // After that determine if a HEAD element exists to add the LINK to.
+        $output = $this->grav->output;
+        $headElement = strpos($output, '</head>');
+        if ($headElement === false) {
+            return;
+        }
+        // Build the LINK element.
+        $root = $uri->rootUrl(true);
+        $route = $config->get('plugins.micropub.route');
+        $url = $root.$route;
+        $tag = '<link href="'.$url.'" rel="micropub" />'."\n\n";
+        // Inject LINK element before the HEAD element's closing tag.
+        $output = substr_replace($output, $tag, $headElement, 0);
+        // replace output
+        $this->grav->output = $output;
+    }
     /**
-     * Do some work for this event, full details of events can be found
-     * on the learn site: http://learn.getgrav.org/plugins/event-hooks
+     * Determine whether to advertise the Micropub endpoint on the current page.
      *
-     * @param Event $e
+     * @param  Uri    $uri    Grav Uri object for the current page.
+     * @param  Config $config Grav Config object containing plugin settings.
+     *
+     * @return boolean
      */
-    public function onPageContentRaw(Event $e)
-    {
-        // Get a variable from the plugin configuration
-        $text = $this->grav['config']->get('plugins.micropub.text_var');
-
-        // Get the current raw content
-        $content = $e['page']->getRawContent();
-
-        // Prepend the output with the custom text and set back on the page
-        $e['page']->setRawContent($text . "\n\n" . $content);
+    private function shouldAdvertise(Uri $uri, Config $config) {
+        // Do not advertise on the receiver itself.
+        if ($this->startsWith($uri->route(), $config->get('plugins.micropub.route'))) {
+            return false;
+        }
+        return true;
+    }
+    private function startsWith($haystack, $needle) {
+        // search backwards starting from haystack length characters from the end
+        return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+    }    
+    private function endsWith($haystack, $needle) {
+        // search forward starting from end minus needle length characters
+        return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+    }
+    private function addEnable ($array, $key, $value) {
+        if (array_key_exists($key, $array)) {
+            array_push($array[$key], $value);
+        } else {
+            $array[$key] = [$value];
+        }
+        return $array;
     }
 }
