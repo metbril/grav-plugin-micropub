@@ -6,6 +6,8 @@ en:
     ADVERTISE_METHOD_HELP: The method used to advertise the endpoint to the client
     ADVERTISE_HEADER: Header
     ADVERTISE_LINK: Link
+    MESSAGES:
+      NOT_IMPLEMENTED: Feature not implemented. Please contact administrator for more information.
 
 nl:
   PLUGIN_MICROPUB:
@@ -15,3 +17,5 @@ nl:
     ADVERTISE_METHOD_HELP: De methode om het endpoint aan te bieden aan de client
     ADVERTISE_HEADER: Header
     ADVERTISE_LINK: Link
+    MESSAGES:
+      NOT_IMPLEMENTED: Mogelijkheid niet geimplementeerd. Neem contact op met de beheerder voor meer informatie.

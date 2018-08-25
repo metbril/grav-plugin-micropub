@@ -4,6 +4,7 @@ namespace Grav\Plugin;
 use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Common\Config\Config;
+use Grav\Common\Page\Page;
 use RocketTheme\Toolbox\Event\Event;
 
 /**
@@ -42,6 +43,15 @@ class MicropubPlugin extends Plugin
         $config = $this->grav['config'];
         $enabled = array();
 
+        $enabled = $this->addEnable($enabled, 'onTwigTemplatePaths', ['onTwigTemplatePaths', 0]);
+
+        // ROUTE
+        $uri = $this->grav['uri'];
+        $route = $config->get('plugins.micropub.route');
+        if ($route && $this->startsWith($uri->path(), $route)) {
+                $enabled = $this->addEnable($enabled, 'onPagesInitialized', ['handleRequest', 0]);
+        }
+
         // ADVERTISE
         $advertise = $config->get('plugins.micropub.advertise_method');
         if ($advertise === 'header') {
@@ -51,6 +61,13 @@ class MicropubPlugin extends Plugin
         }
 
         $this->enable($enabled);
+    }
+    /** 
+     * Handle a Micropub request
+     */
+    public function handleRequest(Event $e) {
+        $this->throw_501();
+        return;
     }
     public function advertiseHeader(Event $e) {
         $uri = $this->grav['uri'];
@@ -101,6 +118,10 @@ class MicropubPlugin extends Plugin
      *
      * @return boolean
      */
+    public function onTwigTemplatePaths()
+    {
+        $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+    }
     private function shouldAdvertise(Uri $uri, Config $config) {
         // Do not advertise on the receiver itself.
         if ($this->startsWith($uri->route(), $config->get('plugins.micropub.route'))) {
@@ -123,5 +144,17 @@ class MicropubPlugin extends Plugin
             $array[$key] = [$value];
         }
         return $array;
+    }
+    private function throw_501($msg = null) {
+        if ($msg === null) {
+            $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.NOT_IMPLEMENTED');
+        }
+        $this->grav['config']->set('plugins.micropub._msg', $msg);
+        $route = $this->grav['uri']->route();
+        $pages = $this->grav['pages'];
+        $page = new Page;
+        $page->init(new \SplFileInfo(__DIR__ . '/pages/501-not-implemented.md'));
+        $page->slug(basename($route));
+        $pages->addPage($page, $route);        
     }
 }
