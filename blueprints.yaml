@@ -25,7 +25,12 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
-    text_var:
+    route:
       type: text
-      label: PLUGIN_MICROPUB.TEXT_VARIABLE
-      help: PLUGIN_MICROPUB.TEXT_VARIABLE_HELP
+      label: PLUGIN_MICROPUB.ROUTE
+      help: PLUGIN_MICROPUB.ROUTE_HELP
+      default: '/micropub'
+      placeholder: '/micropub'
+      size: medium
+      validate:
+        required: true
