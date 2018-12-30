@@ -36,19 +36,36 @@ Here is the default configuration and an explanation of available options:
 
 ```yaml
 enabled: true
+route: /micropub
+advertise_method: header
 ```
+
+Option | Description
+---|---
+enabled | Enable or disable the plugin
+route | The route to the endpoint
+advertise_method | The method used to advertise the endpoint. This can be in the HTML `<head>` header or as a `<link>` inside the page `<body>`.
 
 Note that if you use the admin plugin, a file with your configuration, and named micropub.yaml will be saved in the `user/config/plugins/` folder once the configuration is saved in the admin.
 
 ## Usage
 
-**Describe how to use the plugin.**
+This plugin is currently **in alpha**. Features are slowly added.
+
+Currently supported:
+
+- Configure endpoint route
+- Advertise header
 
 ## Credits
 
-**Did you incorporate third-party code? Want to thank somebody?**
+This plugin is largely inspired by:
+
+- [minimal micropub endpoint](https://gist.github.com/adactio/8168e6b78da7b16a4644) by [Jeremy Keith](https://github.com/adactio)
+- [nanopub](https://github.com/dg01d/nanopub) by [Daniel Goldsmith](https://github.com/dg01d)
+- [webmention plugin](https://github.com/Perlkonig/grav-plugin-webmention) by [Aaron Dalton](https://github.com/Perlkonig)
 
 ## To Do
 
-- [ ] Future plans, if any
-
+This plugin is currently in alpha. Features are slowly added.
+- [ ] Add micropub media endpoint
