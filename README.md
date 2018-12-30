@@ -1,8 +1,6 @@
 # Micropub Plugin
 
-**This README.md file should be modified to describe the features, installation, configuration, and general usage of this plugin.**
-
-The **Micropub** Plugin is for [Grav CMS](http://github.com/getgrav/grav). Micropub for Grav
+The **Micropub** Plugin is for [Grav CMS](http://github.com/getgrav/grav) and implements a [Micropub](https://indieweb.org/Micropub) [server endpoint](https://indieweb.org/Micropub/Servers) for the [IndieWeb](https://indieweb.org/).
 
 ## Installation
 

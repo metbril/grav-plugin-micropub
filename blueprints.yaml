@@ -1,6 +1,6 @@
 name: Micropub
 version: 0.1.0
-description: Micropub for Grav
+description: Micropub endpoint for Grav
 icon: plug
 author:
   name: Robert van Bregt
