@@ -173,9 +173,9 @@ class MicropubPlugin extends Plugin
         $parent_page = $config['parent_page'];
         $pages = $this->grav['pages'];
         $page = $pages->find($parent_page);
-        if (!$page) {
-            return false;
-        }
+        // if (!$page) {
+        //     return false;
+        // }
         $parent_path = $page->path();
 
         $slug = time();
