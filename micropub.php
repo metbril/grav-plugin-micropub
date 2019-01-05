@@ -5,6 +5,7 @@ use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Common\Config\Config;
 use Grav\Common\Page\Page;
+use Grav\Common\Page\Pages;
 use RocketTheme\Toolbox\Event\Event;
 
 /**
