@@ -186,6 +186,7 @@ class MicropubPlugin extends Plugin
             mkdir($folder);
         }
         file_put_contents($file, $content);
+        return true;
     }    
     public function advertiseHeader(Event $e) {
         $uri = $this->grav['uri'];
