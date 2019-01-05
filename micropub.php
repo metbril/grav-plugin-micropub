@@ -69,6 +69,7 @@ class MicropubPlugin extends Plugin
     public function handleRequest(Event $e) {
 
         $base = $this->grav['uri']->base();
+        $site = $base; // extra, will be modified further on
         $route = $this->grav['uri']->route();
 
         $token_endpoint = 'https://tokens.indieauth.com/token';
@@ -92,7 +93,7 @@ class MicropubPlugin extends Plugin
         $options = array(
             CURLOPT_URL => $token_endpoint,
             CURLOPT_HTTPGET => TRUE,
-            CURLOPT_USERAGENT => $base,
+            CURLOPT_USERAGENT => $site,
             CURLOPT_TIMEOUT => 5,
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_HEADER => FALSE,
@@ -119,10 +120,10 @@ class MicropubPlugin extends Plugin
         if (substr($values['me'], -1) != '/') {
             $values['me'].= '/';
         }
-        if (substr($base, -1) != '/') {
-            $base.= '/';
+        if (substr($site, -1) != '/') {
+            $site.= '/';
         }
-        if (strtolower($values['me']) != strtolower($base)) {
+        if (strtolower($values['me']) != strtolower($site)) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
             echo 'Mismatching "me" value in authentication token.';
             exit;
@@ -153,7 +154,7 @@ class MicropubPlugin extends Plugin
 
         // Temporarily return to homepage.
         // TODO: set location to newly created page.
-        $return_url = $base;
+        $return_url = $base.$created;
 
         header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
         header('Location: '.$return_url);
@@ -167,15 +168,16 @@ class MicropubPlugin extends Plugin
          
     }
 
+    // returns false, or url to page created
     private function createPage($content)
     {
         $config = $this->grav['config'];
-
-        $parent_page = $config['parent_page'];
+        
+        $parent_page = $config->get('plugins.micropub.parent_page');
         $pages = $this->grav['pages'];
-        $page = $pages->find($parent_page);
-        if (!($page == null)) {
-            $this->throw_500('Parent page not found.');
+        $page = $pages->find($parent_page, true);
+        if ($page === null) {
+            $this->throw_500('Parent page not found: '.$parent_page);
             return false;
         }
         $parent_path = $page->path();
@@ -188,7 +190,10 @@ class MicropubPlugin extends Plugin
             mkdir($folder);
         }
         file_put_contents($file, $content);
-        return true;
+
+        // TODO: determine 'default route'
+        $route = $parent_page.'/'.$slug;
+        return $route;
     }    
     public function advertiseHeader(Event $e) {
         $uri = $this->grav['uri'];
