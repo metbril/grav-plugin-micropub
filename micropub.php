@@ -143,7 +143,7 @@ class MicropubPlugin extends Plugin
 
         $content = $_POST["content"];
         $created = $this->createPage($content);
-        if ($created) {
+        // if ($created) {
             // Respond
 
             // Temporarily return to homepage.
@@ -159,11 +159,11 @@ class MicropubPlugin extends Plugin
 
             $pages = $this->grav['pages'];
             $pages->addPage($page, $route);        
-        }
-        else {
-            $this->throw_500();
-            return;
-        }
+        // }
+        // else {
+        //     $this->throw_500();
+        //     return;
+        // }
 
     }
     private function createPage($content)
