@@ -174,7 +174,7 @@ class MicropubPlugin extends Plugin
         $parent_page = $config['parent_page'];
         $pages = $this->grav['pages'];
         $page = $pages->find($parent_page);
-        if (!$page == null) {
+        if (!($page == null)) {
             $this->throw_500('Parent page not found.');
             return false;
         }
