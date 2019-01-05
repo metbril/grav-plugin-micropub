@@ -6,7 +6,13 @@ en:
     ADVERTISE_METHOD_HELP: The method used to advertise the endpoint to the client
     ADVERTISE_HEADER: Header
     ADVERTISE_LINK: Link
+    PARENT_PAGE: Parent Page
+    PARENT_PAGE_HELP: The page that new pages will be created as childs to
+    TOKEN_ENDPOINT: Token Endpoint
+    TOKEN_ENDPOINT_HELP: Indie Login Token Endpoint (Must be same as configured on home page)
     MESSAGES:
+      CREATED: Your post has been created.
+      INTERNAL_SERVER_ERROR: An internal error has occurred. Please contact administrator for more information.
       NOT_IMPLEMENTED: Feature not implemented. Please contact administrator for more information.
 
 nl:
@@ -17,5 +23,11 @@ nl:
     ADVERTISE_METHOD_HELP: De methode om het endpoint aan te bieden aan de client
     ADVERTISE_HEADER: Header
     ADVERTISE_LINK: Link
+    PARENT_PAGE: Ouderpagina
+    PARENT_PAGE_HELP: De pagina waar nieuwe pagina's als kind van worden aangemaakt
+    TOKEN_ENDPOINT: Token Endpoint
+    TOKEN_ENDPOINT_HELP: Indie Login Token Endpoint (Moet gelijk zijn als geconfigureerd op startpagina)
     MESSAGES:
+      CREATED: Je bericht is aangemaakt.
+      INTERNAL_SERVER_ERROR: Er is een interne fout opgetreden. Neem contact op met de beheerder voor meer informatie.
       NOT_IMPLEMENTED: Mogelijkheid niet geimplementeerd. Neem contact op met de beheerder voor meer informatie.

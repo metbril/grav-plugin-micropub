@@ -68,4 +68,7 @@ This plugin is largely inspired by:
 ## To Do
 
 This plugin is currently in alpha. Features are slowly added.
+
 - [ ] Add micropub media endpoint
+- [ ] Read token endpoint from home page instead of configuration
+- [ ] Get parent page from blog configuration
