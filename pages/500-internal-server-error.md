@@ -10,3 +10,5 @@ process:
 ---
 
 {{ 'PLUGIN_MICROPUB.MESSAGES.INTERNAL_SERVER_ERROR'|t }}
+
+{{ config.plugins.micropub._msg }}

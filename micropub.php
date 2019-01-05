@@ -144,29 +144,29 @@ class MicropubPlugin extends Plugin
 
         $content = $_POST["content"];
         $created = $this->createPage($content);
-        // if ($created) {
-            // Respond
+        if (!$created) {
+            // Could not create file. Error has been thrown.
+            return;
+        }
 
-            // Temporarily return to homepage.
-            // TODO: set location to newly created page.
-            $return_url = $base;
+        // Now respond
 
-            header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
-            header('Location: '.$return_url);
+        // Temporarily return to homepage.
+        // TODO: set location to newly created page.
+        $return_url = $base;
 
-            $page = new Page;
-            $page->init(new \SplFileInfo(__DIR__ . '/pages/201-created.md'));
-            $page->slug(basename($route));
+        header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
+        header('Location: '.$return_url);
 
-            $pages = $this->grav['pages'];
-            $pages->addPage($page, $route);        
-        // }
-        // else {
-        //     $this->throw_500();
-        //     return;
-        // }
+        $page = new Page;
+        $page->init(new \SplFileInfo(__DIR__ . '/pages/201-created.md'));
+        $page->slug(basename($route));
 
+        $pages = $this->grav['pages'];
+        $pages->addPage($page, $route);   
+         
     }
+
     private function createPage($content)
     {
         $config = $this->grav['config'];
@@ -174,9 +174,10 @@ class MicropubPlugin extends Plugin
         $parent_page = $config['parent_page'];
         $pages = $this->grav['pages'];
         $page = $pages->find($parent_page);
-        // if (!$page) {
-        //     return false;
-        // }
+        if (!$page == null) {
+            $this->throw_500('Parent page not found.')
+            return false;
+        }
         $parent_path = $page->path();
 
         $slug = time();
