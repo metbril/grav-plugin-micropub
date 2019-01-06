@@ -1,5 +1,7 @@
 # Micropub Plugin
 
+> NOTE: This plugin is currently **in alpha**. Features are slowly added.
+
 The **Micropub** Plugin is for [Grav CMS](http://github.com/getgrav/grav) and implements a [Micropub](https://indieweb.org/Micropub) [server endpoint](https://indieweb.org/Micropub/Servers) for the [IndieWeb](https://indieweb.org/).
 
 ## Installation
@@ -55,8 +57,6 @@ Option | Description
 Note that if you use the admin plugin, a file with your configuration, and named micropub.yaml will be saved in the `user/config/plugins/` folder once the configuration is saved in the admin.
 
 ## Usage
-
-This plugin is currently **in alpha**. Features are slowly added.
 
 Currently supported:
 
