@@ -30,7 +30,7 @@ nl:
     TOKEN_ENDPOINT: Token Endpoint
     TOKEN_ENDPOINT_HELP: Indie Login Token Endpoint (Moet gelijk zijn als geconfigureerd op startpagina)
     POST_TEMPLATE: Post paginasjabloon
-    POST_TEMPLATE_HELP: Besstandsnaam paginasjabloon voor berichten ('posts')
+    POST_TEMPLATE_HELP: Bestandsnaam paginasjabloon voor berichten ('posts')
     MESSAGES:
       CREATED: Je bericht is aangemaakt.
       INTERNAL_SERVER_ERROR: Er is een interne fout opgetreden. Neem contact op met de beheerder voor meer informatie.

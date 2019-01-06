@@ -37,7 +37,7 @@ form:
     advertise_method: 
       type: select
       label: PLUGIN_MICROPUB.ADVERTISE_METHOD
-      label: PLUGIN_MICROPUB.ADVERTISE_METHOD_HELP
+      help: PLUGIN_MICROPUB.ADVERTISE_METHOD_HELP
       size: small
       default: header
       options:
