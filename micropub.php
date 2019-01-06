@@ -72,9 +72,14 @@ class MicropubPlugin extends Plugin
         $site = $base; // extra, will be modified further on
         $route = $this->grav['uri']->route();
 
-        $token_endpoint = 'https://tokens.indieauth.com/token';
-
         $config = $this->grav['config'];
+
+        $token_endpoint = $config->get('plugins.micropub.token_endpoint');
+        if ($token_endpoint == '') {
+            $this->throw_500('Token endpoint not configured in micropub plugin.');
+            exit;
+        }
+        // TODO: Check for valid endpoint URL
 
         $_HEADERS = array();
         foreach(getallheaders() as $name => $value) {
