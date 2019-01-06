@@ -23,7 +23,7 @@ To install this plugin, just download the zip version of this repository and unz
 You should now have all the plugin files under
 
     /your/site/grav/user/plugins/micropub
-	
+
 > NOTE: This plugin is a modular component for Grav which requires [Grav](http://github.com/getgrav/grav) and the [Error](https://github.com/getgrav/grav-plugin-error) and [Problems](https://github.com/getgrav/grav-plugin-problems) to operate.
 
 ### Admin Plugin
@@ -54,14 +54,22 @@ Option | Description
 `parent_page` | The parent page that any new page will be created under
 `post_template` | The filename of the page template, also used for rendering your output.
 
-Note that if you use the admin plugin, a file with your configuration, and named micropub.yaml will be saved in the `user/config/plugins/` folder once the configuration is saved in the admin.
+Note that if you use the admin plugin, a file with your configuration, and named `micropub.yaml` will be saved in the `user/config/plugins/` folder once the configuration is saved in the admin.
 
 ## Usage
 
 Currently supported:
 
-- Configure endpoint route
-- Advertise header
+- Deliver a Micropub endpoint
+- Advertise the endpoint in your site
+
+After configuration, you can use any Micropub client to publish content to your site.
+Some publicly available web clients are:
+
+- [Quill](https://quill.p3k.io/) by [Aaron Parecki](https://aaronparecki.com/)
+- [Micropublish](https://micropublish.net/) by [Barry Frost](https://barryfrost.com/)
+
+To be able to use any client, you will also need to be able to provide those IndieAuth authentication. The easiest way to achieve this is, to install the [IndieAuth plugin](https://github.com/metbril/grav-plugin-indieauth).
 
 ## Credits
 
