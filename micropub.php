@@ -285,23 +285,22 @@ class MicropubPlugin extends Plugin
         if ($msg === null) {
             $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.INTERNAL_SERVER_ERROR');
         }
-        $this->grav['config']->set('plugins.micropub._msg', $msg);
-        $route = $this->grav['uri']->route();
-        $pages = $this->grav['pages'];
-        $page = new Page;
-        $page->init(new \SplFileInfo(__DIR__ . '/pages/500-internal-server-error.md'));
-        $page->slug(basename($route));
-        $pages->addPage($page, $route);        
+        $md_page = '/pages/500-internal-server-error.md';
+        $this->throwHandler($md_page, $msg);       
     }
     private function throw_501($msg = null) {
         if ($msg === null) {
             $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.NOT_IMPLEMENTED');
         }
+        $md_page = '/pages/501-not-implemented.md';
+        $this->throwHandler($md_page, $msg);       
+    }
+    private function throwHandler($md_page, $msg) {
         $this->grav['config']->set('plugins.micropub._msg', $msg);
         $route = $this->grav['uri']->route();
         $pages = $this->grav['pages'];
         $page = new Page;
-        $page->init(new \SplFileInfo(__DIR__ . '/pages/501-not-implemented.md'));
+        $page->init(new \SplFileInfo(__DIR__ . $md_page));
         $page->slug(basename($route));
         $pages->addPage($page, $route);        
     }
