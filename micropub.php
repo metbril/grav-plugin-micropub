@@ -184,7 +184,12 @@ class MicropubPlugin extends Plugin
 
         $slug = time();
         $folder = $parent_path.'/'.$slug;
-        $file = $folder . '/item.md';
+        $post_template = $config->get('plugins.micropub.post_template');
+        if ($post_template == '') {
+            $this->throw_500('Post template not configured in micropub plugin.');
+            return false;
+        }
+        $file = $folder . '/' . $post_template . '.md';
     
         if (!file_exists($folder)) {
             mkdir($folder);

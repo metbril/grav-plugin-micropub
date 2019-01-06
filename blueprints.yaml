@@ -57,3 +57,12 @@ form:
       size: medium
       validate:
         required: true
+    post_template:
+      type: select
+      label: PLUGIN_MICROPUB.POST_TEMPLATE
+      help: PLUGIN_MICROPUB.POST_TEMPLATE_HELP
+      data-options@: '\Grav\Plugin\AdminPlugin::pagesTypes'
+      data-default@: '\Grav\Plugin\Admin\Admin::getLastPageName'
+      size: medium
+      validate:
+        required: true
