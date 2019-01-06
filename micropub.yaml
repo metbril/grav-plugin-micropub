@@ -1,3 +1,6 @@
 enabled: true
 route: /micropub
 advertise_method: header
+parent_page:
+token_endpoint:
+post_template:

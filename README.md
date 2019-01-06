@@ -38,13 +38,19 @@ Here is the default configuration and an explanation of available options:
 enabled: true
 route: /micropub
 advertise_method: header
+token_endpoint:
+parent_page:
+post_template:
 ```
 
 Option | Description
 ---|---
-enabled | Enable or disable the plugin
-route | The route to the endpoint
-advertise_method | The method used to advertise the endpoint. This can be in the HTML `<head>` header or as a `<link>` inside the page `<body>`.
+`enabled` | Enable or disable the plugin
+`route` | The route to the endpoint
+`advertise_method` | The method used to advertise the endpoint. This can be in the HTML `<head>` header or as a `<link>` inside the page `<body>`.
+`token_endpoint` | Your authorization token endpoint. This should be the same as advertised on your home page.
+`parent_page` | The parent page that any new page will be created under
+`post_template` | The filename of the page template, also used for rendering your output.
 
 Note that if you use the admin plugin, a file with your configuration, and named micropub.yaml will be saved in the `user/config/plugins/` folder once the configuration is saved in the admin.
 
