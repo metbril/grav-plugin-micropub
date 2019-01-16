@@ -86,8 +86,7 @@ class MicropubPlugin extends Plugin
             $_HEADERS[$name] = $value;
         }
         if (!isset($_HEADERS['Authorization'])) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
-            echo 'Missing "Authorization" header.';
+            $this->throw_401('Missing "Authorization" header.');
             exit;
         }
         if (!isset($_POST['h'])) {
@@ -280,6 +279,13 @@ class MicropubPlugin extends Plugin
             $array[$key] = [$value];
         }
         return $array;
+    }
+    private function throw_401($msg = null) {
+        if ($msg === null) {
+            $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.UNAUTHORIZED');
+        }
+        $md_page = '/pages/401-unauthorized.md';
+        $this->throwHandler($md_page, $msg);       
     }
     private function throw_500($msg = null) {
         if ($msg === null) {
