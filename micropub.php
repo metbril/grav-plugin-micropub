@@ -125,13 +125,11 @@ class MicropubPlugin extends Plugin
             $site.= '/';
         }
         if (strtolower($values['me']) != strtolower($site)) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
-            echo 'Mismatching "me" value in authentication token.';
+            $this->throw_403('Mismatching "me" value in authentication token.');
             exit;
         }
         if ( !stristr($values['scope'], 'post') && !stristr($values['scope'], 'create') ){
-            header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
-            echo 'Missing "post" or "create" value in "scope".';
+            $this->throw_403('Missing "post" or "create" value in "scope".');
             exit;
         }
         if (!isset($_POST['content'])) {
@@ -289,6 +287,13 @@ class MicropubPlugin extends Plugin
         }
         $md_page = '/pages/401-unauthorized.md';
         $this->throwHandler($md_page, $msg);       
+    }
+    private function throw_403($msg = null) {
+        if ($msg === null) {
+            $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.FORBIDDEN');
+        }
+        $md_page = '/pages/403-forbidden.md';
+        $this->throwHandler($md_page, $msg);
     }
     private function throw_500($msg = null) {
         if ($msg === null) {
