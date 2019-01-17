@@ -170,9 +170,11 @@ class MicropubPlugin extends Plugin
         $file = $folder . '/' . $post_template . '.md';
 
         /* Write file */
-        if (!file_exists($folder)) {
-            mkdir($folder);
+        if (file_exists($folder)) {
+            $this->throw_500('Post already exists. Try again or specify a new slug.');
+            exit;
         }
+        mkdir($folder);
         file_put_contents($file, $content);
 
         // TODO: determine 'default route'
