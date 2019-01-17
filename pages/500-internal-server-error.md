@@ -7,6 +7,7 @@ http_response_code: 500
 twig_first: true
 process:
   twig: true
+never_cache_twig: true
 ---
 
 {{ 'PLUGIN_MICROPUB.MESSAGES.INTERNAL_SERVER_ERROR'|t }}

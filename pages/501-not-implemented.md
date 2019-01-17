@@ -7,6 +7,7 @@ http_response_code: 501
 twig_first: true
 process:
   twig: true
+never_cache_twig: true
 ---
 
 {{ 'PLUGIN_MICROPUB.MESSAGES.NOT_IMPLEMENTED'|t }}
