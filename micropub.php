@@ -90,8 +90,7 @@ class MicropubPlugin extends Plugin
             exit;
         }
         if (!isset($_POST['h'])) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
-            echo 'Missing "h" value.';
+            $this->throw_400('Missing "h" value.');
             exit;
         }
         $options = array(
@@ -279,6 +278,13 @@ class MicropubPlugin extends Plugin
             $array[$key] = [$value];
         }
         return $array;
+    }
+    private function throw_400($msg = null) {
+        if ($msg === null) {
+            $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.BAD_REQUEST');
+        }
+        $md_page = '/pages/400-bad-request.md';
+        $this->throwHandler($md_page, $msg);
     }
     private function throw_401($msg = null) {
         if ($msg === null) {

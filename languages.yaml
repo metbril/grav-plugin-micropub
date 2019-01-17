@@ -14,6 +14,7 @@ en:
     POST_TEMPLATE_HELP: Page template file name for posts
     MESSAGES:
       CREATED: Your post has been created.
+      BAD_REQUEST: Bad request.
       UNAUTHORIZED: Unauthorized.
       INTERNAL_SERVER_ERROR: An internal error has occurred. Please contact administrator for more information.
       NOT_IMPLEMENTED: Feature not implemented. Please contact administrator for more information.
@@ -34,6 +35,7 @@ nl:
     POST_TEMPLATE_HELP: Bestandsnaam paginasjabloon voor berichten ('posts')
     MESSAGES:
       CREATED: Je bericht is aangemaakt.
+      BAD_REQUEST: Ongeldig verzoek.
       UNAUTHORIZED: Niet geautoriseerd.
       INTERNAL_SERVER_ERROR: Er is een interne fout opgetreden. Neem contact op met de beheerder voor meer informatie.
       NOT_IMPLEMENTED: Mogelijkheid niet geimplementeerd. Neem contact op met de beheerder voor meer informatie.
