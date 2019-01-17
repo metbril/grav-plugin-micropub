@@ -142,17 +142,47 @@ class MicropubPlugin extends Plugin
            e.g. create a new entry, store it in a database, whatever. */
 
         $content = $_POST["content"];
+        $slug = time();
+
         $created = $this->createPage($content);
         if (!$created) {
             // Could not create file. Error has been thrown.
             return;
         }
 
+        /* Get parent page */
+        $parent_page = $config->get('plugins.micropub.parent_page');
+        $pages = $this->grav['pages'];
+        $page = $pages->find($parent_page, true);
+        if ($page === null) {
+            $this->throw_500('Parent page not found: '.$parent_page);
+            exit;
+        }
+        $parent_path = $page->path();
+
+        /* Get file path */
+        $folder = $parent_path.'/'.$slug;
+        $post_template = $config->get('plugins.micropub.post_template');
+        if ($post_template == '') {
+            $this->throw_500('Post template not configured in micropub plugin.');
+            exit;
+        }
+        $file = $folder . '/' . $post_template . '.md';
+
+        /* Write file */
+        if (!file_exists($folder)) {
+            mkdir($folder);
+        }
+        file_put_contents($file, $content);
+
+        // TODO: determine 'default route'
+        $route = $parent_page.'/'.$slug;
+
         // Now respond
 
         // Temporarily return to homepage.
         // TODO: set location to newly created page.
-        $return_url = $base.$created;
+        $return_url = $base.$route;
 
         header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
         header('Location: '.$return_url);
@@ -165,39 +195,6 @@ class MicropubPlugin extends Plugin
         $pages->addPage($page, $route);   
          
     }
-
-    // returns false, or url to page created
-    private function createPage($content)
-    {
-        $config = $this->grav['config'];
-        
-        $parent_page = $config->get('plugins.micropub.parent_page');
-        $pages = $this->grav['pages'];
-        $page = $pages->find($parent_page, true);
-        if ($page === null) {
-            $this->throw_500('Parent page not found: '.$parent_page);
-            return false;
-        }
-        $parent_path = $page->path();
-
-        $slug = time();
-        $folder = $parent_path.'/'.$slug;
-        $post_template = $config->get('plugins.micropub.post_template');
-        if ($post_template == '') {
-            $this->throw_500('Post template not configured in micropub plugin.');
-            return false;
-        }
-        $file = $folder . '/' . $post_template . '.md';
-    
-        if (!file_exists($folder)) {
-            mkdir($folder);
-        }
-        file_put_contents($file, $content);
-
-        // TODO: determine 'default route'
-        $route = $parent_page.'/'.$slug;
-        return $route;
-    }    
     public function advertiseHeader(Event $e) {
         $uri = $this->grav['uri'];
         $config = $this->grav['config'];
