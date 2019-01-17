@@ -111,13 +111,11 @@ class MicropubPlugin extends Plugin
         curl_close($curl);
         parse_str($source, $values);
         if (!isset($values['me'])) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
-            echo 'Missing "me" value in authentication token.';
+            $this->throw_400('Missing "me" value in authentication token.');
             exit;
         }
         if (!isset($values['scope'])) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
-            echo 'Missing "scope" value in authentication token.';
+            $this->throw_400('Missing "scope" value in authentication token.');
             exit;
         }
         if (substr($values['me'], -1) != '/') {
@@ -137,8 +135,7 @@ class MicropubPlugin extends Plugin
             exit;
         }
         if (!isset($_POST['content'])) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
-            echo 'Missing "content" value.';
+            $this->throw_400('Missing "content" value.');
             exit;
         }
 
