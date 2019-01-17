@@ -164,7 +164,7 @@ class MicropubPlugin extends Plugin
         $folder = $parent_path.'/'.$slug;
         $post_template = $config->get('plugins.micropub.post_template');
         if ($post_template == '') {
-            $this->throw_500('Post template not configured in micropub plugin.');
+            $this->throw_500('Post page template not configured in micropub plugin.');
             exit;
         }
         $file = $folder . '/' . $post_template . '.md';
