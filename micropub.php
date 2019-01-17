@@ -144,12 +144,6 @@ class MicropubPlugin extends Plugin
         $content = $_POST["content"];
         $slug = time();
 
-        $created = $this->createPage($content);
-        if (!$created) {
-            // Could not create file. Error has been thrown.
-            return;
-        }
-
         /* Get parent page */
         $parent_page = $config->get('plugins.micropub.parent_page');
         $pages = $this->grav['pages'];
