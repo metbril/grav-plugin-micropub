@@ -158,8 +158,27 @@ class MicropubPlugin extends Plugin
            (such as $_POST['content'], $_POST['category'], $_POST['location'], etc.)
            e.g. create a new entry, store it in a database, whatever. */
 
+        // Adhere to Grav standards
+        $_POST = $this->change_key($_POST, 'name', 'title');
+        $_POST = $this->change_key($_POST, 'mp-slug', 'slug');
+        $_POST = $this->change_key($_POST, 'category', 'tag');
+        if (isset($_POST['tag'])) {
+            $_POST['taxonomy'] = array('tag' => $_POST['tag']);
+        }
+
+        // Get content
         $content = $_POST["content"];
-        $slug = $default_slug;
+        
+        // Get or set slug
+        $slug = $_POST["slug"] ?? $default_slug;
+
+        // Remove superfluous keys
+        unset($_POST['h']);
+        unset($_POST['access_token']);
+        unset($_POST['content']);
+        unset($_POST['slug']);
+        unset($_POST['tag']);
+
 
         $parent_path = $parent_page->path();
 
