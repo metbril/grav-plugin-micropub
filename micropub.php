@@ -201,6 +201,7 @@ class MicropubPlugin extends Plugin
         $page->name($post_template . '.md');
         $page->route($route);
         $page->content($content);
+        $page->header($_POST);
         $page->save();
 
         // Now respond
