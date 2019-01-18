@@ -82,6 +82,19 @@ class MicropubPlugin extends Plugin
         }
         // TODO: Check for valid endpoint URL
 
+        $post_template = $config->get('plugins.micropub.post_template');
+        if ($post_template == '') {
+            $this->throw_500('Post page template not configured in micropub plugin.');
+            return;
+        }
+
+        $parent_route = $config->get('plugins.micropub.parent_route');
+        $parent_page = $pages->find($parent_route, true);
+        if ($parent_page === null) {
+            $this->throw_500('Parent page not found: '.$parent_route);
+            return;
+        }
+
         $_HEADERS = array();
         foreach(getallheaders() as $name => $value) {
             $_HEADERS[$name] = $value;
@@ -145,22 +158,10 @@ class MicropubPlugin extends Plugin
         $content = $_POST["content"];
         $slug = time();
 
-        /* Get parent page */
-        $parent_route = $config->get('plugins.micropub.parent_route');
-        $page = $pages->find($parent_route, true);
-        if ($page === null) {
-            $this->throw_500('Parent page not found: '.$parent_route);
-            return;
-        }
-        $parent_path = $page->path();
+        $parent_path = $parent_page->path();
 
         /* Get file path */
         $folder = $parent_path.'/'.$slug;
-        $post_template = $config->get('plugins.micropub.post_template');
-        if ($post_template == '') {
-            $this->throw_500('Post page template not configured in micropub plugin.');
-            return;
-        }
         $file = $folder . '/' . $post_template . '.md';
 
         /* Write file */
