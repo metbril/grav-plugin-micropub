@@ -68,9 +68,6 @@ class MicropubPlugin extends Plugin
      */
     public function handleRequest(Event $e) {
 
-        $default_slug = time();
-        // TODO: Make default slug configurable
-
         $base = $this->grav['uri']->base();
         $site = $base; // extra, will be modified further on
         $route = $this->grav['uri']->route();
@@ -170,6 +167,10 @@ class MicropubPlugin extends Plugin
         $content = $_POST["content"];
 
         // Get or set slug
+        $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
+        $default_slug = date($slug_date_format);
+        // TODO: Make default slug configurable
+
         $slug = $_POST["slug"] ?? $default_slug;
 
         // Remove superfluous keys
@@ -181,9 +182,8 @@ class MicropubPlugin extends Plugin
 
         // Add timestamp to frontmatter
         $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
-        $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
         if ($date_in_frontmatter) {
-            $_POST['date'] = date($slug_date_format);
+            $_POST['date'] = date('r');
         }
 
         // TODO: determine 'default route'
