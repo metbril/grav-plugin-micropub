@@ -77,7 +77,7 @@ class MicropubPlugin extends Plugin
         $token_endpoint = $config->get('plugins.micropub.token_endpoint');
         if ($token_endpoint == '') {
             $this->throw_500('Token endpoint not configured in micropub plugin.');
-            exit;
+            return;
         }
         // TODO: Check for valid endpoint URL
 
@@ -87,11 +87,11 @@ class MicropubPlugin extends Plugin
         }
         if (!isset($_HEADERS['Authorization'])) {
             $this->throw_401('Missing "Authorization" header.');
-            exit;
+            return;
         }
         if (!isset($_POST['h'])) {
             $this->throw_400('Missing "h" value.');
-            exit;
+            return;
         }
         $options = array(
             CURLOPT_URL => $token_endpoint,
@@ -112,11 +112,11 @@ class MicropubPlugin extends Plugin
         parse_str($source, $values);
         if (!isset($values['me'])) {
             $this->throw_400('Missing "me" value in authentication token.');
-            exit;
+            return;
         }
         if (!isset($values['scope'])) {
             $this->throw_400('Missing "scope" value in authentication token.');
-            exit;
+            return;
         }
         if (substr($values['me'], -1) != '/') {
             $values['me'].= '/';
@@ -126,15 +126,15 @@ class MicropubPlugin extends Plugin
         }
         if (strtolower($values['me']) != strtolower($site)) {
             $this->throw_403('Mismatching "me" value in authentication token.');
-            exit;
+            return;
         }
         if ( !stristr($values['scope'], 'post') && !stristr($values['scope'], 'create') ){
             $this->throw_403('Missing "post" or "create" value in "scope".');
-            exit;
+            return;
         }
         if (!isset($_POST['content'])) {
             $this->throw_400('Missing "content" value.');
-            exit;
+            return;
         }
 
         /* Everything's cool. Do something with the $_POST variables
@@ -150,7 +150,7 @@ class MicropubPlugin extends Plugin
         $page = $pages->find($parent_route, true);
         if ($page === null) {
             $this->throw_500('Parent page not found: '.$parent_route);
-            exit;
+            return;
         }
         $parent_path = $page->path();
 
@@ -159,14 +159,14 @@ class MicropubPlugin extends Plugin
         $post_template = $config->get('plugins.micropub.post_template');
         if ($post_template == '') {
             $this->throw_500('Post page template not configured in micropub plugin.');
-            exit;
+            return;
         }
         $file = $folder . '/' . $post_template . '.md';
 
         /* Write file */
         if (file_exists($folder)) {
             $this->throw_500('Post already exists. Try again or specify a new slug.');
-            exit;
+            return;
         }
         mkdir($folder);
         file_put_contents($file, $content);
