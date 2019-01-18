@@ -145,11 +145,11 @@ class MicropubPlugin extends Plugin
         $slug = time();
 
         /* Get parent page */
-        $parent_page = $config->get('plugins.micropub.parent_page');
+        $parent_route = $config->get('plugins.micropub.parent_route');
         $pages = $this->grav['pages'];
-        $page = $pages->find($parent_page, true);
+        $page = $pages->find($parent_route, true);
         if ($page === null) {
-            $this->throw_500('Parent page not found: '.$parent_page);
+            $this->throw_500('Parent page not found: '.$parent_route);
             exit;
         }
         $parent_path = $page->path();
@@ -172,7 +172,7 @@ class MicropubPlugin extends Plugin
         file_put_contents($file, $content);
 
         // TODO: determine 'default route'
-        $route = $parent_page.'/'.$slug;
+        $route = $parent_route.'/'.$slug;
 
         // Now respond
 

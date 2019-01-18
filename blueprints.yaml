@@ -43,10 +43,10 @@ form:
       options:
         header: PLUGIN_MICROPUB.ADVERTISE_HEADER
         link: PLUGIN_MICROPUB.ADVERTISE_LINK
-    parent_page:
+    parent_route:
       type: pages
-      label: PLUGIN_MICROPUB.PARENT_PAGE
-      help: PLUGIN_MICROPUB.PARENT_PAGE_HELP
+      label: PLUGIN_MICROPUB.PARENT_ROUTE
+      help: PLUGIN_MICROPUB.PARENT_ROUTE_HELP
       size: medium
       validate:
         required: true
