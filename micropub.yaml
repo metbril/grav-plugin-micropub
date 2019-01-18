@@ -4,3 +4,4 @@ advertise_method: header
 parent_route:
 token_endpoint:
 post_template:
+date_in_frontmatter: false

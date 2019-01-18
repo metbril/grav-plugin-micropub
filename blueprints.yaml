@@ -66,3 +66,14 @@ form:
       size: medium
       validate:
         required: true
+    date_in_frontmatter:
+      type: toggle
+      label: PLUGIN_MICROPUB.DATE_IN_FRONTMATTER
+      help: PLUGIN_MICROPUB.DATE_IN_FRONTMATTER_HELP
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool

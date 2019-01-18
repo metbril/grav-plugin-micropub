@@ -179,6 +179,11 @@ class MicropubPlugin extends Plugin
         unset($_POST['slug']);
         unset($_POST['tag']);
 
+        // Add timestamp to frontmatter
+        $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
+        if ($date_in_frontmatter) {
+            $_POST['date'] = date('c');
+        }
 
         $parent_path = $parent_page->path();
 

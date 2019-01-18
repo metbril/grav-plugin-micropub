@@ -12,6 +12,8 @@ en:
     TOKEN_ENDPOINT_HELP: Indie Login Token Endpoint (Must be same as configured on home page)
     POST_TEMPLATE: Post Page Template
     POST_TEMPLATE_HELP: Page template file name for posts
+    DATE_IN_FRONTMATTER: Date in frontmatter
+    DATE_IN_FRONTMATTER_HELP: Save creation date in frontmatter
     MESSAGES:
       CREATED: Your post has been created.
       BAD_REQUEST: Bad request.
@@ -34,6 +36,8 @@ nl:
     TOKEN_ENDPOINT_HELP: Indie Login Token Endpoint (Moet gelijk zijn als geconfigureerd op startpagina)
     POST_TEMPLATE: Post paginasjabloon
     POST_TEMPLATE_HELP: Bestandsnaam paginasjabloon voor berichten ('posts')
+    DATE_IN_FRONTMATTER: Datum in frontmatter
+    DATE_IN_FRONTMATTER_HELP: Bewaar aanmaakdatum frontmatter
     MESSAGES:
       CREATED: Je bericht is aangemaakt.
       BAD_REQUEST: Ongeldig verzoek.
