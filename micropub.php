@@ -168,7 +168,7 @@ class MicropubPlugin extends Plugin
 
         // Get content
         $content = $_POST["content"];
-        
+
         // Get or set slug
         $slug = $_POST["slug"] ?? $default_slug;
 
@@ -185,28 +185,27 @@ class MicropubPlugin extends Plugin
             $_POST['date'] = date('c');
         }
 
-        $parent_path = $parent_page->path();
+        // TODO: determine 'default route'
+        $route = $parent_route . DS . $slug;
 
-        /* Get file path */
-        $folder = $parent_path.'/'.$slug;
-        $file = $folder . '/' . $post_template . '.md';
-
-        /* Write file */
-        if (file_exists($folder)) {
-            $this->throw_500('Post already exists. Try again or specify a new slug.');
+        $page = $pages->find($route);
+        if ($page) {
+            $this->throw_500('Cannot create page. Page already exists. Please contact adminstrator. Try again or specify a new slug.');
             return;
         }
-        mkdir($folder);
-        file_put_contents($file, $content);
 
-        // TODO: determine 'default route'
-        $route = $parent_route.'/'.$slug;
+        $page = new Page;
+        $page->slug($slug);
+        $page->path($parent_page->path() . DS . $slug);
+        $page->parent($parent_page);
+        $page->name($post_template . '.md');
+        $page->route($route);
+        $page->content($content);
+        $page->save();
 
         // Now respond
 
-        // Temporarily return to homepage.
-        // TODO: set location to newly created page.
-        $return_url = $base.$route;
+        $return_url = $base . $route;
 
         header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
         header('Location: '.$return_url);
@@ -217,7 +216,7 @@ class MicropubPlugin extends Plugin
 
         $pages = $this->grav['pages'];
         $pages->addPage($page, $route);   
-         
+
     }
     public function advertiseHeader(Event $e) {
         $uri = $this->grav['uri'];
