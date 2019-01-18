@@ -181,8 +181,9 @@ class MicropubPlugin extends Plugin
 
         // Add timestamp to frontmatter
         $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
+        $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
         if ($date_in_frontmatter) {
-            $_POST['date'] = date('c');
+            $_POST['date'] = date($slug_date_format);
         }
 
         // TODO: determine 'default route'

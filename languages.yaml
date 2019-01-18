@@ -14,6 +14,9 @@ en:
     POST_TEMPLATE_HELP: Page template file name for posts
     DATE_IN_FRONTMATTER: Date in frontmatter
     DATE_IN_FRONTMATTER_HELP: Save creation date in frontmatter
+    SLUG_DATE_FORMAT: Slug date format
+    SLUG_DATE_FORMAT_HELP: The format used to store the creation date into the slug. 
+    SLUG_DATE_FORMAT_DESCRIPTION: Any format supported by the <a href="https://secure.php.net/manual/en/function.date.php">PHP date function</a>.
     MESSAGES:
       CREATED: Your post has been created.
       BAD_REQUEST: Bad request.
@@ -38,6 +41,9 @@ nl:
     POST_TEMPLATE_HELP: Bestandsnaam paginasjabloon voor berichten ('posts')
     DATE_IN_FRONTMATTER: Datum in frontmatter
     DATE_IN_FRONTMATTER_HELP: Bewaar aanmaakdatum frontmatter
+    SLUG_DATE_FORMAT: Slug datum formaat
+    SLUG_DATE_FORMAT_HELP: Het formaat waarin de aanmaakdatum wordt opgeslagen in de slug
+    SLUG_DATE_FORMAT_DESCRIPTION: Ieder formaat dat wordt ondersteund door de <a href="https://secure.php.net/manual/en/function.date.php">PHP date functie</a>.
     MESSAGES:
       CREATED: Je bericht is aangemaakt.
       BAD_REQUEST: Ongeldig verzoek.

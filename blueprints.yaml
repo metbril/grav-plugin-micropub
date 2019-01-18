@@ -77,3 +77,10 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
+    slug_date_format:
+      type: text
+      label: PLUGIN_MICROPUB.SLUG_DATE_FORMAT
+      help: PLUGIN_MICROPUB.SLUG_DATE_FORMAT_HELP
+      size: medium
+      default: 'Y-m-d-H-i'
+      description: PLUGIN_MICROPUB.SLUG_DATE_FORMAT_DESCRIPTION
