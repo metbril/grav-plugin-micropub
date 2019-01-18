@@ -55,6 +55,7 @@ form:
       label: PLUGIN_MICROPUB.TOKEN_ENDPOINT
       help: PLUGIN_MICROPUB.TOKEN_ENDPOINT_HELP
       size: medium
+      placeholder: 'https://tokens.indieauth.com/token'
       validate:
         required: true
     post_template:
