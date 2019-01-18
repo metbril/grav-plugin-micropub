@@ -68,6 +68,9 @@ class MicropubPlugin extends Plugin
      */
     public function handleRequest(Event $e) {
 
+        $default_slug = time();
+        // TODO: Make default slug configurable
+
         $base = $this->grav['uri']->base();
         $site = $base; // extra, will be modified further on
         $route = $this->grav['uri']->route();
@@ -156,7 +159,7 @@ class MicropubPlugin extends Plugin
            e.g. create a new entry, store it in a database, whatever. */
 
         $content = $_POST["content"];
-        $slug = time();
+        $slug = $default_slug;
 
         $parent_path = $parent_page->path();
 
