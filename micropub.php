@@ -73,6 +73,7 @@ class MicropubPlugin extends Plugin
         $route = $this->grav['uri']->route();
 
         $config = $this->grav['config'];
+        $pages = $this->grav['pages'];
 
         $token_endpoint = $config->get('plugins.micropub.token_endpoint');
         if ($token_endpoint == '') {
@@ -146,7 +147,6 @@ class MicropubPlugin extends Plugin
 
         /* Get parent page */
         $parent_route = $config->get('plugins.micropub.parent_route');
-        $pages = $this->grav['pages'];
         $page = $pages->find($parent_route, true);
         if ($page === null) {
             $this->throw_500('Parent page not found: '.$parent_route);
