@@ -295,6 +295,16 @@ class MicropubPlugin extends Plugin
         }
         return $array;
     }
+    function change_key( $array, $old_key, $new_key ) {
+
+        if( ! array_key_exists( $old_key, $array ) )
+            return $array;
+    
+        $keys = array_keys( $array );
+        $keys[ array_search( $old_key, $keys ) ] = $new_key;
+    
+        return array_combine( $keys, $array );
+    }
     private function throw_400($msg = null) {
         if ($msg === null) {
             $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.BAD_REQUEST');
