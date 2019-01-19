@@ -174,7 +174,8 @@ class MicropubPlugin extends Plugin
             $key = array_search($destination_uid, array_column($destination, 'uid'));
             $dest = $destination[$key];
 
-            $post_template = $config->get('plugins.micropub.post_template');
+            // Check template
+            $post_template = $dest['template'];
             if ($post_template == '') {
                 $this->throw_500('Post page template not configured in micropub plugin.');
                 return;

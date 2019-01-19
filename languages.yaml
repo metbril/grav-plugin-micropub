@@ -8,8 +8,6 @@ en:
     ADVERTISE_LINK: Link
     TOKEN_ENDPOINT: Token Endpoint
     TOKEN_ENDPOINT_HELP: Indie Login Token Endpoint (Must be same as configured on home page)
-    POST_TEMPLATE: Post Page Template
-    POST_TEMPLATE_HELP: Page template file name for posts
     DATE_IN_FRONTMATTER: Date in frontmatter
     DATE_IN_FRONTMATTER_HELP: Save creation date in frontmatter
     SLUG_DATE_FORMAT: Slug date format
@@ -44,8 +42,6 @@ nl:
     ADVERTISE_LINK: Link
     TOKEN_ENDPOINT: Token Endpoint
     TOKEN_ENDPOINT_HELP: Indie Login Token Endpoint (Moet gelijk zijn als geconfigureerd op startpagina)
-    POST_TEMPLATE: Post paginasjabloon
-    POST_TEMPLATE_HELP: Bestandsnaam paginasjabloon voor berichten ('posts')
     DATE_IN_FRONTMATTER: Datum in frontmatter
     DATE_IN_FRONTMATTER_HELP: Bewaar aanmaakdatum frontmatter
     SLUG_DATE_FORMAT: Slug datum formaat
