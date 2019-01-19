@@ -51,15 +51,6 @@ form:
       placeholder: 'https://tokens.indieauth.com/token'
       validate:
         required: true
-    post_template:
-      type: select
-      label: PLUGIN_MICROPUB.POST_TEMPLATE
-      help: PLUGIN_MICROPUB.POST_TEMPLATE_HELP
-      data-options@: '\Grav\Plugin\AdminPlugin::pagesTypes'
-      data-default@: '\Grav\Plugin\Admin\Admin::getLastPageName'
-      size: medium
-      validate:
-        required: true
     date_in_frontmatter:
       type: toggle
       label: PLUGIN_MICROPUB.DATE_IN_FRONTMATTER
