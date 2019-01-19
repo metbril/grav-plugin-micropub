@@ -8,6 +8,7 @@ twig_first: true
 process:
   twig: true
 never_cache_twig: true
+cache_enable: false
 ---
 
 {{ 'PLUGIN_MICROPUB.MESSAGES.INTERNAL_SERVER_ERROR'|t }}
