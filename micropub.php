@@ -223,6 +223,30 @@ class MicropubPlugin extends Plugin
             $pages->addPage($page, $route);   
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
+            // Offer micropub clients full configuration
+            if (isset($_GET['q']) && $_GET['q'] === 'config') {
+
+                $destination = $config->get('plugins.micropub.destination');
+                $mp_destination = [];
+                foreach ($destination as $value) {
+                    $mp_destination[] = [
+                        'uid' => $value['uid'],
+                        'name' => $value['name']
+                    ];
+                }
+                $payload = [];
+                $payload["destination"] = $mp_destination;
+                $this->grav['config']->set('plugins.micropub._payload', json_encode($payload,JSON_PRETTY_PRINT));
+
+                // Create and add page
+                $route = $this->grav['uri']->route();
+                $page = new Page;
+                $page->init(new \SplFileInfo(__DIR__ . '/pages/config.md'));
+                $page->slug(basename($route));
+                $pages = $this->grav['pages'];
+                $pages->addPage($page, $route);   
+                        
+            }
         }  
     }
     public function advertiseHeader(Event $e) {
