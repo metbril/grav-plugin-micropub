@@ -17,6 +17,17 @@ en:
     SLUG_DATE_FORMAT: Slug date format
     SLUG_DATE_FORMAT_HELP: The format used to store the creation date into the slug. 
     SLUG_DATE_FORMAT_DESCRIPTION: Any format supported by the <a href="https://secure.php.net/manual/en/function.date.php">PHP date function</a>.
+    DESTINATION:
+      LIST: Destinations
+      LIST_HELP: Destinations your endpoint can create. The first in the list will be the default destination.
+      ROUTE: Route
+      ROUTE_HELP: Route to destination parent page
+      TEMPLATE: Page Template
+      TEMPLATE_HELP: Page template to create post with 
+      UID: Identifier
+      UID_HELP: Unique identifier for the destination
+      NAME: Name
+      NAME_HELP: Friendly name of the destination
     MESSAGES:
       CREATED: Your post has been created.
       BAD_REQUEST: Bad request.
@@ -44,6 +55,17 @@ nl:
     SLUG_DATE_FORMAT: Slug datum formaat
     SLUG_DATE_FORMAT_HELP: Het formaat waarin de aanmaakdatum wordt opgeslagen in de slug
     SLUG_DATE_FORMAT_DESCRIPTION: Ieder formaat dat wordt ondersteund door de <a href="https://secure.php.net/manual/en/function.date.php">PHP date functie</a>.
+    DESTINATION:
+      LIST: Bestemmingen
+      LIST_HELP: Bestemmingen waar je eindpunt pagina's kan aanmaken. De eerste in de lijst is de standaardbestemming.
+      ROUTE: Route
+      ROUTE_HELP: Route naar de bovenliggende pagina
+      TEMPLATE: Paginasjabloon
+      TEMPLATE_HELP: Paginasjabloon waarmee het bericht wordt gemaakt
+      UID: Identificatie
+      UID_HELP: Unieke identificatie voor de bestemming
+      NAME: Naam
+      NAME_HELP: Vriendelijke naam van de bestemming
     MESSAGES:
       CREATED: Je bericht is aangemaakt.
       BAD_REQUEST: Ongeldig verzoek.
