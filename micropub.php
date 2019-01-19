@@ -164,13 +164,24 @@ class MicropubPlugin extends Plugin
             (such as $_POST['content'], $_POST['category'], $_POST['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
 
+            // Get destination
+            $destination = $config->get('plugins.micropub.destination');
+            if (isset($_POST['mp-destination'])) {
+                $destination_uid = $_POST['mp-destination'];
+            } else {
+                $destination_uid = $destination[0]['uid'];
+            }
+            $key = array_search($destination_uid, array_column($destination, 'uid'));
+            $dest = $destination[$key];
+
             $post_template = $config->get('plugins.micropub.post_template');
             if ($post_template == '') {
                 $this->throw_500('Post page template not configured in micropub plugin.');
                 return;
             }
     
-            $parent_route = $config->get('plugins.micropub.parent_route');
+            // Get parent
+            $parent_route = $dest['route'];
             $parent_page = $pages->find($parent_route, true);
             if ($parent_page === null) {
                 $this->throw_500('Parent page not found: '.$parent_route);
