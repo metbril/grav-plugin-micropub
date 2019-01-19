@@ -43,6 +43,7 @@ advertise_method: header
 token_endpoint:
 parent_page:
 post_template:
+destination:
 ```
 
 Option | Description
@@ -53,6 +54,7 @@ Option | Description
 `token_endpoint` | Your authorization token endpoint. This should be the same as advertised on your home page.
 `parent_page` | The parent page that any new page will be created under
 `post_template` | The filename of the page template, also used for rendering your output.
+`destination` | A list of available endpoint destinations. Posts can be saved as a child to one of these. If a Micropub endpoint does not support destinations, the first one is used by default.
 
 Note that if you use the admin plugin, a file with your configuration, and named `micropub.yaml` will be saved in the `user/config/plugins/` folder once the configuration is saved in the admin.
 
@@ -60,7 +62,7 @@ Note that if you use the admin plugin, a file with your configuration, and named
 
 Currently supported:
 
-- Deliver a Micropub endpoint
+- Deliver a Micropub endpoint with multiple destinations
 - Advertise the endpoint in your site
 
 After configuration, you can use any Micropub client to publish content to your site.
