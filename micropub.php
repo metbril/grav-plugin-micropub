@@ -82,29 +82,12 @@ class MicropubPlugin extends Plugin
         }
         // TODO: Check for valid endpoint URL
 
-        $post_template = $config->get('plugins.micropub.post_template');
-        if ($post_template == '') {
-            $this->throw_500('Post page template not configured in micropub plugin.');
-            return;
-        }
-
-        $parent_route = $config->get('plugins.micropub.parent_route');
-        $parent_page = $pages->find($parent_route, true);
-        if ($parent_page === null) {
-            $this->throw_500('Parent page not found: '.$parent_route);
-            return;
-        }
-
         $_HEADERS = array();
         foreach(getallheaders() as $name => $value) {
             $_HEADERS[$name] = $value;
         }
         if (!isset($_HEADERS['Authorization'])) {
             $this->throw_401('Missing "Authorization" header.');
-            return;
-        }
-        if (!isset($_POST['h'])) {
-            $this->throw_400('Missing "h" value.');
             return;
         }
         $options = array(
@@ -146,79 +129,137 @@ class MicropubPlugin extends Plugin
             $this->throw_403('Missing "post" or "create" value in "scope".');
             return;
         }
-        if (!isset($_POST['content'])) {
-            $this->throw_400('Missing "content" value.');
-            return;
-        }
 
-        /* Everything's cool. Do something with the $_POST variables
-           (such as $_POST['content'], $_POST['category'], $_POST['location'], etc.)
-           e.g. create a new entry, store it in a database, whatever. */
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        // Adhere to Grav standards
-        $_POST = $this->change_key($_POST, 'name', 'title');
-        $_POST = $this->change_key($_POST, 'mp-slug', 'slug');
-        $_POST = $this->change_key($_POST, 'category', 'tag');
-        if (isset($_POST['tag'])) {
-            $_POST['taxonomy'] = array('tag' => $_POST['tag']);
-        }
+            if (!isset($_POST['h'])) {
+                $this->throw_400('Missing "h" value.');
+                return;
+            }
+            if (!isset($_POST['content'])) {
+                $this->throw_400('Missing "content" value.');
+                return;
+            }
 
-        // Get content
-        $content = $_POST["content"];
+            /* Everything's cool. Do something with the $_POST variables
+            (such as $_POST['content'], $_POST['category'], $_POST['location'], etc.)
+            e.g. create a new entry, store it in a database, whatever. */
 
-        // Get or set slug
-        $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
-        $default_slug = date($slug_date_format);
-        // TODO: Make default slug configurable
+            // Get destination
+            $destination = $config->get('plugins.micropub.destination');
+            if (isset($_POST['mp-destination'])) {
+                $destination_uid = $_POST['mp-destination'];
+            } else {
+                $destination_uid = $destination[0]['uid'];
+            }
+            $key = array_search($destination_uid, array_column($destination, 'uid'));
+            $dest = $destination[$key];
 
-        $slug = $_POST["slug"] ?? $default_slug;
+            // Check template
+            $post_template = $dest['template'];
+            if ($post_template == '') {
+                $this->throw_500('Post page template not configured in micropub plugin.');
+                return;
+            }
+    
+            // Get parent
+            $parent_route = $dest['route'];
+            $parent_page = $pages->find($parent_route, true);
+            if ($parent_page === null) {
+                $this->throw_500('Parent page not found: '.$parent_route);
+                return;
+            }
+    
+            // Adhere to Grav standards
+            $_POST = $this->change_key($_POST, 'name', 'title');
+            $_POST = $this->change_key($_POST, 'mp-slug', 'slug');
+            $_POST = $this->change_key($_POST, 'category', 'tag');
+            if (isset($_POST['tag'])) {
+                $_POST['taxonomy'] = array('tag' => $_POST['tag']);
+            }
 
-        // Remove superfluous keys
-        unset($_POST['h']);
-        unset($_POST['access_token']);
-        unset($_POST['content']);
-        unset($_POST['slug']);
-        unset($_POST['tag']);
+            // Get content
+            $content = $_POST["content"];
 
-        // Add timestamp to frontmatter
-        $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
-        if ($date_in_frontmatter) {
-            $_POST['date'] = date('r');
-        }
+            // Get or set slug
+            $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
+            $default_slug = date($slug_date_format);
+            // TODO: Make default slug configurable
 
-        // TODO: determine 'default route'
-        $route = $parent_route . DS . $slug;
+            $slug = $_POST["slug"] ?? $default_slug;
 
-        $page = $pages->find($route);
-        if ($page) {
-            $this->throw_500('Cannot create page. Page already exists. Please contact adminstrator. Try again or specify a new slug.');
-            return;
-        }
+            // Remove superfluous keys
+            unset($_POST['h']);
+            unset($_POST['access_token']);
+            unset($_POST['content']);
+            unset($_POST['slug']);
+            unset($_POST['tag']);
 
-        $page = new Page;
-        $page->slug($slug);
-        $page->path($parent_page->path() . DS . $slug);
-        $page->parent($parent_page);
-        $page->name($post_template . '.md');
-        $page->route($route);
-        $page->content($content);
-        $page->header($_POST);
-        $page->save();
+            // Add timestamp to frontmatter
+            $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
+            if ($date_in_frontmatter) {
+                $_POST['date'] = date('r');
+            }
 
-        // Now respond
+            // TODO: determine 'default route'
+            $route = $parent_route . DS . $slug;
 
-        $return_url = $base . $route;
+            $page = $pages->find($route);
+            if ($page) {
+                $this->throw_500('Cannot create page. Page already exists. Please contact adminstrator. Try again or specify a new slug.');
+                return;
+            }
 
-        header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
-        header('Location: '.$return_url);
+            $page = new Page;
+            $page->slug($slug);
+            $page->path($parent_page->path() . DS . $slug);
+            $page->parent($parent_page);
+            $page->name($post_template . '.md');
+            $page->route($route);
+            $page->content($content);
+            $page->header($_POST);
+            $page->save();
 
-        $page = new Page;
-        $page->init(new \SplFileInfo(__DIR__ . '/pages/201-created.md'));
-        $page->slug(basename($route));
+            // Now respond
 
-        $pages = $this->grav['pages'];
-        $pages->addPage($page, $route);   
+            $return_url = $base . $route;
 
+            header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
+            header('Location: '.$return_url);
+
+            $page = new Page;
+            $page->init(new \SplFileInfo(__DIR__ . '/pages/201-created.md'));
+            $page->slug(basename($route));
+
+            $pages = $this->grav['pages'];
+            $pages->addPage($page, $route);   
+        } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+            // Offer micropub clients full configuration
+            if (isset($_GET['q']) && $_GET['q'] === 'config') {
+
+                $destination = $config->get('plugins.micropub.destination');
+                $mp_destination = [];
+                foreach ($destination as $value) {
+                    $mp_destination[] = [
+                        'uid' => $value['uid'],
+                        'name' => $value['name']
+                    ];
+                }
+                $payload = [];
+                $payload["destination"] = $mp_destination;
+                $this->grav['config']->set('plugins.micropub._payload', json_encode($payload,JSON_PRETTY_PRINT));
+
+                // Create and add page
+                $route = $this->grav['uri']->route();
+                $page = new Page;
+                $page->init(new \SplFileInfo(__DIR__ . '/pages/config.md'));
+                $page->slug(basename($route));
+                $pages = $this->grav['pages'];
+                $pages->addPage($page, $route);   
+                        
+            }
+        }  
     }
     public function advertiseHeader(Event $e) {
         $uri = $this->grav['uri'];
@@ -334,12 +375,18 @@ class MicropubPlugin extends Plugin
         $md_page = '/pages/500-internal-server-error.md';
         $this->throwHandler($md_page, $msg);       
     }
-    private function throw_501($msg = null) {
-        if ($msg === null) {
-            $msg = $this->grav['language']->translate('PLUGIN_MICROPUB.MESSAGES.NOT_IMPLEMENTED');
-        }
+    private function throw_501() {
+
         $md_page = '/pages/501-not-implemented.md';
-        $this->throwHandler($md_page, $msg);       
+        // $this->throwHandler($md_page, $msg);       
+
+        $route = $this->grav['uri']->route();
+        $pages = $this->grav['pages'];
+        $page = new Page;
+        $page->init(new \SplFileInfo(__DIR__ . $md_page));
+        $page->slug(basename($route));
+        $pages->addPage($page, $route);        
+
     }
     private function throwHandler($md_page, $msg) {
         $this->grav['config']->set('plugins.micropub._msg', $msg);

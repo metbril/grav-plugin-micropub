@@ -43,28 +43,12 @@ form:
       options:
         header: PLUGIN_MICROPUB.ADVERTISE_HEADER
         link: PLUGIN_MICROPUB.ADVERTISE_LINK
-    parent_route:
-      type: pages
-      label: PLUGIN_MICROPUB.PARENT_ROUTE
-      help: PLUGIN_MICROPUB.PARENT_ROUTE_HELP
-      size: medium
-      validate:
-        required: true
     token_endpoint:
       type: text
       label: PLUGIN_MICROPUB.TOKEN_ENDPOINT
       help: PLUGIN_MICROPUB.TOKEN_ENDPOINT_HELP
       size: medium
       placeholder: 'https://tokens.indieauth.com/token'
-      validate:
-        required: true
-    post_template:
-      type: select
-      label: PLUGIN_MICROPUB.POST_TEMPLATE
-      help: PLUGIN_MICROPUB.POST_TEMPLATE_HELP
-      data-options@: '\Grav\Plugin\AdminPlugin::pagesTypes'
-      data-default@: '\Grav\Plugin\Admin\Admin::getLastPageName'
-      size: medium
       validate:
         required: true
     date_in_frontmatter:
@@ -85,3 +69,39 @@ form:
       size: medium
       default: 'Y-m-d-H-i'
       description: PLUGIN_MICROPUB.SLUG_DATE_FORMAT_DESCRIPTION
+    destination:
+      type: list
+      collapsed: false
+      label: PLUGIN_MICROPUB.DESTINATION.LIST
+      help: PLUGIN_MICROPUB.DESTINATION.LIST_HELP
+      fields:
+        .uid:
+          type: text
+          label: PLUGIN_MICROPUB.DESTINATION.UID
+          help: PLUGIN_MICROPUB.DESTINATION.UID_HELP
+          size: medium
+          placeholder: 'blog'
+          validate:
+            required: true
+        .name:
+          type: text
+          label: PLUGIN_MICROPUB.DESTINATION.NAME
+          help: PLUGIN_MICROPUB.DESTINATION.NAME_HELP
+          size: medium
+          placeholder: 'Blog'
+        .route:
+          type: pages
+          label: PLUGIN_MICROPUB.DESTINATION.ROUTE
+          help: PLUGIN_MICROPUB.DESTINATION.ROUTE_HELP
+          size: medium
+          validate:
+            required: true
+        .template:
+          type: select
+          label: PLUGIN_MICROPUB.DESTINATION.TEMPLATE
+          help: PLUGIN_MICROPUB.DESTINATION.TEMPLATE_HELP
+          data-options@: '\Grav\Plugin\AdminPlugin::pagesTypes'
+          data-default@: '\Grav\Plugin\Admin\Admin::getLastPageName'
+          size: medium
+          validate:
+            required: true
