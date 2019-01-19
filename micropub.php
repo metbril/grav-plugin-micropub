@@ -101,19 +101,6 @@ class MicropubPlugin extends Plugin
         }
         // TODO: Check for valid endpoint URL
 
-        $post_template = $config->get('plugins.micropub.post_template');
-        if ($post_template == '') {
-            $this->throw_500('Post page template not configured in micropub plugin.');
-            return;
-        }
-
-        $parent_route = $config->get('plugins.micropub.parent_route');
-        $parent_page = $pages->find($parent_route, true);
-        if ($parent_page === null) {
-            $this->throw_500('Parent page not found: '.$parent_route);
-            return;
-        }
-
         $_HEADERS = array();
         foreach(getallheaders() as $name => $value) {
             $_HEADERS[$name] = $value;
@@ -177,6 +164,19 @@ class MicropubPlugin extends Plugin
             (such as $_POST['content'], $_POST['category'], $_POST['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
 
+            $post_template = $config->get('plugins.micropub.post_template');
+            if ($post_template == '') {
+                $this->throw_500('Post page template not configured in micropub plugin.');
+                return;
+            }
+    
+            $parent_route = $config->get('plugins.micropub.parent_route');
+            $parent_page = $pages->find($parent_route, true);
+            if ($parent_page === null) {
+                $this->throw_500('Parent page not found: '.$parent_route);
+                return;
+            }
+    
             // Adhere to Grav standards
             $_POST = $this->change_key($_POST, 'name', 'title');
             $_POST = $this->change_key($_POST, 'mp-slug', 'slug');
