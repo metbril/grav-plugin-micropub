@@ -10,7 +10,7 @@ demo: http://demo.yoursite.com
 keywords: grav, plugin, etc
 bugs: https://github.com/metbril/grav-plugin-micropub/issues
 docs: https://github.com/metbril/grav-plugin-micropub/blob/develop/README.md
-license: MIT
+license: GPL-3.0-or-later
 
 form:
   validation: strict
