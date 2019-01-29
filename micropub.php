@@ -115,11 +115,12 @@ class MicropubPlugin extends Plugin
             $_HEADERS[$name] = $value;
         }
         if ($this->debug) {
-            $dumpfile = '';
-            $dumpfile .= Yaml::dump($_HEADERS);
-            $dumpfile .= Yaml::dump($_SERVER);
-            $dumpfile .= Yaml::dump($_POST);
-            $dumpfile .= Yaml::dump($_GET);
+            $dump = array();
+            $dump['HEADERS'] = $_HEADERS;
+            $dump['SERVER'] = $_SERVER;
+            $dump['POST'] = $_POST;
+            $dump['GET'] = $_GET;
+            $dumpfile = Yaml::dump($dump);
             $dumpfolder = DATA_DIR . '/micropub';
             if (!file_exists($dumpfolder)) {
                 mkdir($dumpfolder);
