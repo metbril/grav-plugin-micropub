@@ -116,10 +116,10 @@ class MicropubPlugin extends Plugin
         }
         if ($this->debug) {
             $dump = array();
-            $dump['HEADERS'] = $_HEADERS;
-            $dump['SERVER'] = $_SERVER;
-            $dump['POST'] = $_POST;
-            $dump['GET'] = $_GET;
+            $dump['HEADERS'] = ksort($_HEADERS);
+            $dump['SERVER'] = ksort($_SERVER);
+            $dump['POST'] = ksort($_POST);
+            $dump['GET'] = ksort($_GET);
             $dumpfile = Yaml::dump($dump);
             $dumpfolder = DATA_DIR . '/micropub';
             if (!file_exists($dumpfolder)) {
