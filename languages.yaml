@@ -1,5 +1,7 @@
 en:
   PLUGIN_MICROPUB:
+    DEBUG: Debug
+    DEBUG_HELP: Save every request in a yaml file for debugging
     ROUTE: Route
     ROUTE_HELP: The route to the Micropub Endpoint
     ADVERTISE_METHOD: Advertise Method
@@ -34,6 +36,8 @@ en:
 
 nl:
   PLUGIN_MICROPUB:
+    DEBUG: Debug
+    DEBUG_HELP: Bewaar ieder verzoek in een yaml-bestand voor debuggen
     ROUTE: Route
     ROUTE_HELP: De route naar het Micropub Endpoint
     ADVERTISE_METHOD: Methode van aanbieden

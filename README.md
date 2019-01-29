@@ -38,6 +38,7 @@ Here is the default configuration and an explanation of available options:
 
 ```yaml
 enabled: true
+debug: false
 route: /micropub
 advertise_method: header
 token_endpoint:
@@ -49,6 +50,7 @@ destination:
 Option | Description
 ---|---
 `enabled` | Enable or disable the plugin
+`debug`| Save every request into a yaml file. Files are save in the `user/data/micropub` folder.
 `route` | The route to the endpoint
 `advertise_method` | The method used to advertise the endpoint. This can be in the HTML `<head>` header or as a `<link>` inside the page `<body>`.
 `token_endpoint` | Your authorization token endpoint. This should be the same as advertised on your home page.

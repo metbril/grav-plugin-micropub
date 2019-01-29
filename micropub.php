@@ -26,6 +26,7 @@ use Grav\Common\Config\Config;
 use Grav\Common\Page\Page;
 use Grav\Common\Page\Pages;
 use RocketTheme\Toolbox\Event\Event;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class MicropubPlugin
@@ -33,6 +34,12 @@ use RocketTheme\Toolbox\Event\Event;
  */
 class MicropubPlugin extends Plugin
 {
+
+    /**
+     * @var boolean
+     */
+    protected $debug;
+
     /**
      * @return array
      *
@@ -61,8 +68,10 @@ class MicropubPlugin extends Plugin
         }
 
         $config = $this->grav['config'];
-        $enabled = array();
 
+        $this->debug = $config->get('plugins.micropub.debug');
+
+        $enabled = array();
         $enabled = $this->addEnable($enabled, 'onTwigTemplatePaths', ['onTwigTemplatePaths', 0]);
 
         // ROUTE
@@ -104,6 +113,20 @@ class MicropubPlugin extends Plugin
         $_HEADERS = array();
         foreach(getallheaders() as $name => $value) {
             $_HEADERS[$name] = $value;
+        }
+        if ($this->debug) {
+            $dump = array();
+            $dump['HEADERS'] = $_HEADERS;
+            $dump['SERVER'] = $_SERVER;
+            $dump['POST'] = $_POST;
+            $dump['GET'] = $_GET;
+            $dumpfile = Yaml::dump($dump);
+            $dumpfolder = DATA_DIR . '/micropub';
+            if (!file_exists($dumpfolder)) {
+                mkdir($dumpfolder);
+            }
+            $dumpfilename = $dumpfolder . DS . time() . ".yaml";
+            file_put_contents($dumpfilename, $dumpfile);
         }
         if (!isset($_HEADERS['Authorization'])) {
             $this->throw_401('Missing "Authorization" header.');

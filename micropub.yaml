@@ -1,4 +1,5 @@
 enabled: true
+debug: false
 route: /micropub
 advertise_method: header
 parent_route:
