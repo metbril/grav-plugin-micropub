@@ -122,7 +122,7 @@ class MicropubPlugin extends Plugin
             $dumpfile .= Yaml::dump($_GET);
             $dumpfolder = DATA_DIR . '/micropub';
             if (!file_exists($dumpfolder)) {
-                mkdir($dumpfolder};
+                mkdir($dumpfolder);
             }
             $dumpfilename = $dumpfolder . DS . time() . ".yaml';
             file_put_contents($dumpfilename, $dumpfile);
