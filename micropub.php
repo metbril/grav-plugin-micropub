@@ -121,7 +121,7 @@ class MicropubPlugin extends Plugin
             $dumpfile .= Yaml::dump($_POST);
             $dumpfile .= Yaml::dump($_GET);
             $dumpfilename = DATA_DIR . '/micropub/' . date('c');
-            file_put_contents($file, $dumpfile);
+            file_put_contents($dumpfilename, $dumpfile);
         }
         if (!isset($_HEADERS['Authorization'])) {
             $this->throw_401('Missing "Authorization" header.');
