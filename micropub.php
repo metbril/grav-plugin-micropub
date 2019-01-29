@@ -124,7 +124,7 @@ class MicropubPlugin extends Plugin
             if (!file_exists($dumpfolder)) {
                 mkdir($dumpfolder);
             }
-            $dumpfilename = $dumpfolder . DS . time() . ".yaml';
+            $dumpfilename = $dumpfolder . DS . time() . ".yaml";
             file_put_contents($dumpfilename, $dumpfile);
         }
         if (!isset($_HEADERS['Authorization'])) {
