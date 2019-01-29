@@ -33,6 +33,12 @@ use RocketTheme\Toolbox\Event\Event;
  */
 class MicropubPlugin extends Plugin
 {
+
+    /**
+     * @var boolean
+     */
+    protected $debug;
+
     /**
      * @return array
      *
@@ -59,6 +65,8 @@ class MicropubPlugin extends Plugin
         if ($this->isAdmin()) {
             return;
         }
+
+        $this->debug = true; // TODO: get from config
 
         $config = $this->grav['config'];
         $enabled = array();
@@ -104,6 +112,15 @@ class MicropubPlugin extends Plugin
         $_HEADERS = array();
         foreach(getallheaders() as $name => $value) {
             $_HEADERS[$name] = $value;
+        }
+        if ($this->debug) {
+            $dumpfile = '';
+            $dumpfile .= Yaml::parse($_HEADERS);
+            $dumpfile .= Yaml::parse($_SERVER);
+            $dumpfile .= Yaml::parse($_POST);
+            $dumpfile .= Yaml::parse($_GET);
+            $dumpfilename = DATA_DIR . '/micropub/' . date('c');
+            file_put_contents($file, $dumpfile);
         }
         if (!isset($_HEADERS['Authorization'])) {
             $this->throw_401('Missing "Authorization" header.');
