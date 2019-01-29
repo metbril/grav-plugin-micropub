@@ -151,23 +151,25 @@ class MicropubPlugin extends Plugin
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            if (!isset($_POST['h'])) {
+            $data = $_POST;
+
+            if (!isset($data['h'])) {
                 $this->throw_400('Missing "h" value.');
                 return;
             }
-            if (!isset($_POST['content'])) {
+            if (!isset($data['content'])) {
                 $this->throw_400('Missing "content" value.');
                 return;
             }
 
-            /* Everything's cool. Do something with the $_POST variables
-            (such as $_POST['content'], $_POST['category'], $_POST['location'], etc.)
+            /* Everything's cool. Do something with the $data variables
+            (such as $data['content'], $data['category'], $data['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
 
             // Get destination
             $destination = $config->get('plugins.micropub.destination');
-            if (isset($_POST['mp-destination'])) {
-                $destination_uid = $_POST['mp-destination'];
+            if (isset($data['mp-destination'])) {
+                $destination_uid = $data['mp-destination'];
             } else {
                 $destination_uid = $destination[0]['uid'];
             }
@@ -190,34 +192,34 @@ class MicropubPlugin extends Plugin
             }
     
             // Adhere to Grav standards
-            $_POST = $this->change_key($_POST, 'name', 'title');
-            $_POST = $this->change_key($_POST, 'mp-slug', 'slug');
-            $_POST = $this->change_key($_POST, 'category', 'tag');
-            if (isset($_POST['tag'])) {
-                $_POST['taxonomy'] = array('tag' => $_POST['tag']);
+            $data = $this->change_key($data, 'name', 'title');
+            $data = $this->change_key($data, 'mp-slug', 'slug');
+            $data = $this->change_key($data, 'category', 'tag');
+            if (isset($data['tag'])) {
+                $data['taxonomy'] = array('tag' => $data['tag']);
             }
 
             // Get content
-            $content = $_POST["content"];
+            $content = $data["content"];
 
             // Get or set slug
             $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
             $default_slug = date($slug_date_format);
             // TODO: Make default slug configurable
 
-            $slug = $_POST["slug"] ?? $default_slug;
+            $slug = $data["slug"] ?? $default_slug;
 
             // Remove superfluous keys
-            unset($_POST['h']);
-            unset($_POST['access_token']);
-            unset($_POST['content']);
-            unset($_POST['slug']);
-            unset($_POST['tag']);
+            unset($data['h']);
+            unset($data['access_token']);
+            unset($data['content']);
+            unset($data['slug']);
+            unset($data['tag']);
 
             // Add timestamp to frontmatter
             $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
             if ($date_in_frontmatter) {
-                $_POST['date'] = date('r');
+                $data['date'] = date('r');
             }
 
             // TODO: determine 'default route'
@@ -236,7 +238,7 @@ class MicropubPlugin extends Plugin
             $page->name($post_template . '.md');
             $page->route($route);
             $page->content($content);
-            $page->header($_POST);
+            $page->header($data);
             $page->save();
 
             // Now respond
