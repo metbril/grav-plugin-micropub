@@ -26,6 +26,7 @@ use Grav\Common\Config\Config;
 use Grav\Common\Page\Page;
 use Grav\Common\Page\Pages;
 use RocketTheme\Toolbox\Event\Event;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class MicropubPlugin
