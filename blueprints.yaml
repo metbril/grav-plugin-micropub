@@ -25,6 +25,17 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
+    debug:
+      type: toggle
+      label: PLUGIN_MICROPUB.DEBUG
+      help: PLUGIN_MICROPUB.DEBUG_HELP
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
     route:
       type: text
       label: PLUGIN_MICROPUB.ROUTE

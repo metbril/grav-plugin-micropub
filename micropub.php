@@ -67,11 +67,11 @@ class MicropubPlugin extends Plugin
             return;
         }
 
-        $this->debug = true; // TODO: get from config
-
         $config = $this->grav['config'];
-        $enabled = array();
 
+        $this->debug = $config->get('plugins.micropub.debug');
+
+        $enabled = array();
         $enabled = $this->addEnable($enabled, 'onTwigTemplatePaths', ['onTwigTemplatePaths', 0]);
 
         // ROUTE
