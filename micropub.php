@@ -116,10 +116,10 @@ class MicropubPlugin extends Plugin
         }
         if ($this->debug) {
             $dumpfile = '';
-            $dumpfile .= Yaml::parse($_HEADERS);
-            $dumpfile .= Yaml::parse($_SERVER);
-            $dumpfile .= Yaml::parse($_POST);
-            $dumpfile .= Yaml::parse($_GET);
+            $dumpfile .= Yaml::dump($_HEADERS);
+            $dumpfile .= Yaml::dump($_SERVER);
+            $dumpfile .= Yaml::dump($_POST);
+            $dumpfile .= Yaml::dump($_GET);
             $dumpfilename = DATA_DIR . '/micropub/' . date('c');
             file_put_contents($file, $dumpfile);
         }
