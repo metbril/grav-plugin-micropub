@@ -189,6 +189,16 @@ class MicropubPlugin extends Plugin
             (such as $data['content'], $data['category'], $data['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
 
+            // Determine post type
+            if (isset($data['checkin'])) {
+                $data['type'] = 'checkin';
+            } elseif (isset($data['name'])) {
+                $data['type'] = 'article';
+            } else {
+                // Fallback
+                $data['type'] = 'note';
+            }
+
             // Get destination
             $destination = $config->get('plugins.micropub.destination');
             if (isset($data['mp-destination'])) {
@@ -264,6 +274,18 @@ class MicropubPlugin extends Plugin
             $page->header($data);
             $page->save();
 
+            // Grab static map
+            if (isset($data['location'])) {
+                $location = explode(':', $data['location']);
+                $latlon = explode(",", $location[1]);
+                $lat = $latlon[0];
+                $lon = $latlon[1];
+                $map_filename = $page->path() . DS . 'map.png';
+                $mapbox_token = $config->get('plugins.micropub.mapbox_token');
+                // $this->grav['log']->info($latlon);
+                $this->grab_mapbox_map($lat, $lon, 800, 200, 15, $map_filename, $mapbox_token);
+            }
+
             // Now respond
 
             $return_url = $base . $route;
@@ -277,6 +299,7 @@ class MicropubPlugin extends Plugin
 
             $pages = $this->grav['pages'];
             $pages->addPage($page, $route);   
+
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             // Offer micropub clients full configuration
@@ -440,5 +463,28 @@ class MicropubPlugin extends Plugin
         $page->init(new \SplFileInfo(__DIR__ . $md_page));
         $page->slug(basename($route));
         $pages->addPage($page, $route);        
+    }
+    private function grab_mapbox_map($lat, $lon, $width, $height, $zoom, $filename, $token){
+        $url = 'https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s('.$lon.','.$lat.')/'.$lon.','.$lat.','.$zoom.'/'.$width.'x'.$height.'?access_token='.$token;
+        $this->grab_image($url, $filename);
+    }
+    private function grab_image($url,$filename){
+        $ch = curl_init ($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+        $raw=curl_exec($ch);
+        curl_close ($ch);
+    
+        $dirname = dirname($filename);
+        if (!is_dir($dirname)){
+            mkdir($dirname, 0755, true);
+        }
+        if(file_exists($filename)){
+            unlink($filename);
+        }
+        $fp = fopen($filename,'x');
+        fwrite($fp, $raw);
+        fclose($fp);
     }
 }
