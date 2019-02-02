@@ -189,6 +189,16 @@ class MicropubPlugin extends Plugin
             (such as $data['content'], $data['category'], $data['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
 
+            // Determine post type
+            if (isset($data['checkin'])) {
+                $data['type'] = 'checkin';
+            } elseif (isset($data['name'])) {
+                $data['type'] = 'article';
+            } else {
+                // Fallback
+                $data['type'] = 'note';
+            }
+
             // Get destination
             $destination = $config->get('plugins.micropub.destination');
             if (isset($data['mp-destination'])) {
@@ -277,6 +287,7 @@ class MicropubPlugin extends Plugin
 
             $pages = $this->grav['pages'];
             $pages->addPage($page, $route);   
+
         } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             // Offer micropub clients full configuration
