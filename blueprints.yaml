@@ -80,6 +80,11 @@ form:
       size: medium
       default: 'Y-m-d-H-i'
       description: PLUGIN_MICROPUB.SLUG_DATE_FORMAT_DESCRIPTION
+    mapbox_token:
+      type: text
+      label: PLUGIN_MICROPUB.MAPBOX_TOKEN
+      help: PLUGIN_MICROPUB.MAPBOX_TOKEN_HELP
+      size: medium
     destination:
       type: list
       collapsed: false

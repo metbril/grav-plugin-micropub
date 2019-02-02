@@ -15,6 +15,8 @@ en:
     SLUG_DATE_FORMAT: Slug date format
     SLUG_DATE_FORMAT_HELP: The format used to store the creation date into the slug. 
     SLUG_DATE_FORMAT_DESCRIPTION: Any format supported by the <a href="https://secure.php.net/manual/en/function.date.php">PHP date function</a>.
+    MAPBOX_TOKEN: Mapbox Token
+    MAPBOX_TOKEN_HELP: Token for generating static maps
     DESTINATION:
       LIST: Destinations
       LIST_HELP: Destinations your endpoint can create. The first in the list will be the default destination.
@@ -51,6 +53,8 @@ nl:
     SLUG_DATE_FORMAT: Slug datum formaat
     SLUG_DATE_FORMAT_HELP: Het formaat waarin de aanmaakdatum wordt opgeslagen in de slug
     SLUG_DATE_FORMAT_DESCRIPTION: Ieder formaat dat wordt ondersteund door de <a href="https://secure.php.net/manual/en/function.date.php">PHP date functie</a>.
+    MAPBOX_TOKEN: Mapbox Token
+    MAPBOX_TOKEN_HELP: Token om statische kaarten te genereren
     DESTINATION:
       LIST: Bestemmingen
       LIST_HELP: Bestemmingen waar je eindpunt pagina's kan aanmaken. De eerste in de lijst is de standaardbestemming.
