@@ -8,3 +8,7 @@ post_template:
 date_in_frontmatter: false
 slug_date_format: 'Y-m-d-H-i'
 destination:
+map:
+  width: 600
+  height: 200
+  zoom: 16

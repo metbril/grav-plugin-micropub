@@ -45,6 +45,10 @@ token_endpoint:
 parent_page:
 post_template:
 destination:
+map:
+  width: 600
+  height: 200
+  zoom: 16
 ```
 
 Option | Description
@@ -57,6 +61,9 @@ Option | Description
 `parent_page` | The parent page that any new page will be created under
 `post_template` | The filename of the page template, also used for rendering your output.
 `mapbox_token` | Token to generate static maps with [Mapbox](https://mapbox.com).
+`map.width` | Static map width
+`map.height` | Static map height
+`map.zoom` | Static map zoom
 `destination` | A list of available endpoint destinations. Posts can be saved as a child to one of these. If a Micropub endpoint does not support destinations, the first one is used by default.
 
 Note that if you use the admin plugin, a file with your configuration, and named `micropub.yaml` will be saved in the `user/config/plugins/` folder once the configuration is saved in the admin.
