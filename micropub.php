@@ -282,8 +282,10 @@ class MicropubPlugin extends Plugin
                 $lon = $latlon[1];
                 $map_filename = $page->path() . DS . 'map.png';
                 $mapbox_token = $config->get('plugins.micropub.mapbox_token');
-                // $this->grav['log']->info($latlon);
-                $this->grab_mapbox_map($lat, $lon, 800, 200, 15, $map_filename, $mapbox_token);
+                $map_width = $config->get('plugins.micropub.map.width');
+                $map_height = $config->get('plugins.micropub.map.height');
+                $map_zoom = $config->get('plugins.micropub.map.zoom');
+                $this->grab_mapbox_map($lat, $lon, $map_width, $map_height, $map_zoom, $map_filename, $mapbox_token);
             }
 
             // Now respond

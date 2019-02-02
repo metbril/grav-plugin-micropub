@@ -84,7 +84,40 @@ form:
       type: text
       label: PLUGIN_MICROPUB.MAPBOX_TOKEN
       help: PLUGIN_MICROPUB.MAPBOX_TOKEN_HELP
-      size: medium
+      size: large
+    map.width:
+      type: number
+      label: PLUGIN_MICROPUB.MAP.WIDTH
+      help: PLUGIN_MICROPUB.MAP.WIDTH_HELP
+      size: small
+      default: 600
+      placeholder: 600
+      validate:
+        type: int
+        min: 1
+        max: 1280
+    map.height:
+      type: number
+      label: PLUGIN_MICROPUB.MAP.HEIGHT
+      help: PLUGIN_MICROPUB.MAP.HEIGHT_HELP
+      size: small
+      default: 200
+      placeholder: 200
+      validate:
+        type: int
+        min: 1
+        max: 1280
+    map.zoom:
+      type: number
+      label: PLUGIN_MICROPUB.MAP.ZOOM
+      help: PLUGIN_MICROPUB.MAP.ZOOM_HELP
+      size: small
+      default: 16
+      placeholder: 16
+      validate:
+        type: int
+        min: 0
+        max: 20
     destination:
       type: list
       collapsed: false

@@ -17,6 +17,13 @@ en:
     SLUG_DATE_FORMAT_DESCRIPTION: Any format supported by the <a href="https://secure.php.net/manual/en/function.date.php">PHP date function</a>.
     MAPBOX_TOKEN: Mapbox Token
     MAPBOX_TOKEN_HELP: Token for generating static maps
+    MAP:
+      WIDTH: Map Width
+      WIDTH_HELP: Static map width
+      HEIGHT: Map Height
+      HEIGHT_HELP: Static map height
+      ZOOM: Map Zoom
+      ZOOM_HELP: Static map zoom
     DESTINATION:
       LIST: Destinations
       LIST_HELP: Destinations your endpoint can create. The first in the list will be the default destination.
@@ -55,6 +62,13 @@ nl:
     SLUG_DATE_FORMAT_DESCRIPTION: Ieder formaat dat wordt ondersteund door de <a href="https://secure.php.net/manual/en/function.date.php">PHP date functie</a>.
     MAPBOX_TOKEN: Mapbox Token
     MAPBOX_TOKEN_HELP: Token om statische kaarten te genereren
+    MAP:
+      WIDTH: Kaartbreedte
+      WIDTH_HELP: Breedte statische kaart
+      HEIGHT: Kaarthoogte
+      HEIGHT_HELP: Hoogte statische kaart
+      ZOOM: Kaartschaal
+      ZOOM_HELP: Schaal statische kaart
     DESTINATION:
       LIST: Bestemmingen
       LIST_HELP: Bestemmingen waar je eindpunt pagina's kan aanmaken. De eerste in de lijst is de standaardbestemming.
