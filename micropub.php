@@ -192,6 +192,9 @@ class MicropubPlugin extends Plugin
             // Determine post type
             if (isset($data['checkin'])) {
                 $data['type'] = 'checkin';
+            } elseif (isset($data['bookmark-of'])) {
+                $data['type'] = 'bookmark';
+                $this->change_key($data, 'bookmark-of', 'link');
             } elseif (isset($data['name'])) {
                 $data['type'] = 'article';
             } else {
