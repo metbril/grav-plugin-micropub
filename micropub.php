@@ -308,6 +308,20 @@ class MicropubPlugin extends Plugin
                 // TODO: check if file move has succeeded
             }
 
+            // Save included audio
+            if (isset($_FILES["audio"])) {
+
+                // TODO: check if this really is audio
+                // TODO: strip exif/metadata
+
+                // Assuming there is only one audio file
+                $tmp_name = $_FILES["audio"]["tmp_name"];
+                $name = $page->path() . DS . basename($_FILES["audio"]["name"]);
+                move_uploaded_file($tmp_name, $name);
+
+                // TODO: check if file move has succeeded
+            }
+
             // Grab static map
             if (isset($data['location'])) {
                 $location = explode(':', $data['location']);
