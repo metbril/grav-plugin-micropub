@@ -294,6 +294,20 @@ class MicropubPlugin extends Plugin
                 // TODO: check if file move has succeeded
             }
 
+            // Save included video
+            if (isset($_FILES["video"])) {
+
+                // TODO: check if this really is a video
+                // TODO: strip exif/metadata
+
+                // Assuming there is only one video
+                $tmp_name = $_FILES["video"]["tmp_name"];
+                $name = $page->path() . DS . basename($_FILES["video"]["name"]);
+                move_uploaded_file($tmp_name, $name);
+
+                // TODO: check if file move has succeeded
+            }
+
             // Grab static map
             if (isset($data['location'])) {
                 $location = explode(':', $data['location']);
