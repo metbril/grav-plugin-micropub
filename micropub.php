@@ -280,6 +280,20 @@ class MicropubPlugin extends Plugin
             $page->header($data);
             $page->save();
 
+            // Save included photo
+            if (isset($_FILES["photo"])) {
+
+                // TODO: check if this really is a photo
+                // TODO: strip exif/metadata
+
+                // Assuming there is only one photo
+                $tmp_name = $_FILES["photo"]["tmp_name"];
+                $name = $page->path() . DS . basename($_FILES["photo"]["name"]);
+                move_uploaded_file($tmp_name, $name);
+
+                // TODO: check if file move has succeeded
+            }
+
             // Grab static map
             if (isset($data['location'])) {
                 $location = explode(':', $data['location']);
