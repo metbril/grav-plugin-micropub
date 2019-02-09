@@ -180,10 +180,6 @@ class MicropubPlugin extends Plugin
                 $this->throw_400('Missing "h" value.');
                 return;
             }
-            if (!isset($data['content'])) {
-                $this->throw_400('Missing "content" value.');
-                return;
-            }
 
             /* Everything's cool. Do something with the $data variables
             (such as $data['content'], $data['category'], $data['location'], etc.)
