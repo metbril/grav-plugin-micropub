@@ -235,7 +235,7 @@ class MicropubPlugin extends Plugin
             }
 
             // Get content
-            $content = $data["content"];
+            $content = isset($data["content"]) ? $data["content"] : "";
 
             // Get or set slug
             $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
