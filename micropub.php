@@ -261,13 +261,13 @@ class MicropubPlugin extends Plugin
             }
 
             // Sanitize yaml keys; replace dash with underscore
-            $keys = array_keys($data);
-            foreach ($keys as $key) {
-                if (strpos($key, '-') !== FALSE) {
-                    $newkey = str_replace('-','_',$key);
-                    $data = $this->change_key($data, $key, $newkey); 
-                }
-            }
+            // $keys = array_keys($data);
+            // foreach ($keys as $key) {
+            //     if (strpos($key, '-') !== FALSE) {
+            //         $newkey = str_replace('-','_',$key);
+            //         $data = $this->change_key($data, $key, $newkey); 
+            //     }
+            // }
 
             // Get content
             $content = $data["content"];
