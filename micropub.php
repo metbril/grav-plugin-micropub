@@ -189,22 +189,6 @@ class MicropubPlugin extends Plugin
             (such as $data['content'], $data['category'], $data['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
 
-            // Determine post type
-            if (isset($data['checkin'])) {
-                $data['type'] = 'checkin';
-            } elseif (isset($data['bookmark-of'])) {
-                $data['type'] = 'bookmark';
-                $data = $this->change_key($data, 'bookmark-of', 'link');
-            } elseif (isset($data['in-reply-to'])) {
-                $data['type'] = 'reply';
-                $this->change_key($data, 'in-reply-to', 'link');
-            } elseif (isset($data['name'])) {
-                $data['type'] = 'article';
-            } else {
-                // Fallback
-                $data['type'] = 'note';
-            }
-
             // Get destination
             $destination = $config->get('plugins.micropub.destination');
             if (isset($data['mp-destination'])) {
@@ -229,37 +213,53 @@ class MicropubPlugin extends Plugin
                 $this->throw_500('Parent page not found: '.$parent_route);
                 return;
             }
-    
-            // Adhere to Grav standards
-            $data = $this->change_key($data, 'name', 'title');
-            $data = $this->change_key($data, 'mp-slug', 'slug');
-            $data = $this->change_key($data, 'category', 'tag');
-            if (isset($data['tag'])) {
-                $data['taxonomy'] = array('tag' => $data['tag']);
-            }
-
-            // Get content
-            $content = $data["content"];
-
-            // Get or set slug
-            $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
-            $default_slug = date($slug_date_format);
-            // TODO: Make default slug configurable
-
-            $slug = $data["slug"] ?? $default_slug;
 
             // Remove superfluous keys
             unset($data['h']);
             unset($data['access_token']);
-            unset($data['content']);
+    
+            // Get or set slug
+            $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
+            $default_slug = date($slug_date_format);
+            $data = $this->change_key($data, 'mp-slug', 'slug');
+            $slug = $data["slug"] ?? $default_slug;
             unset($data['slug']);
-            unset($data['tag']);
+
+            // Set title
+            $data = $this->change_key($data, 'name', 'title');
 
             // Add timestamp to frontmatter
             $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
             if ($date_in_frontmatter) {
                 $data['date'] = date('r');
             }
+
+            // Set tags
+            $data = $this->change_key($data, 'category', 'tag');
+            if (isset($data['tag'])) {
+                $data['taxonomy'] = array('tag' => $data['tag']);
+            }
+            unset($data['tag']);
+
+            // Determine post type
+            if (isset($data['checkin'])) {
+                $data['type'] = 'checkin';
+            } elseif (isset($data['bookmark-of'])) {
+                $data['type'] = 'bookmark';
+                $data = $this->change_key($data, 'bookmark-of', 'link');
+            } elseif (isset($data['in-reply-to'])) {
+                $data['type'] = 'reply';
+                $this->change_key($data, 'in-reply-to', 'link');
+            } elseif (isset($data['name'])) {
+                $data['type'] = 'article';
+            } else {
+                // Fallback
+                $data['type'] = 'note';
+            }
+
+            // Get content
+            $content = $data["content"];
+            unset($data['content']);
 
             // TODO: determine 'default route'
             $route = $parent_route . DS . $slug;
