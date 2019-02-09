@@ -190,10 +190,8 @@ class MicropubPlugin extends Plugin
                 $data['type'] = 'checkin';
             } elseif (isset($data['bookmark-of'])) {
                 $data['type'] = 'bookmark';
-                $data = $this->change_key($data, 'bookmark-of', 'link');
             } elseif (isset($data['in-reply-to'])) {
                 $data['type'] = 'reply';
-                $this->change_key($data, 'in-reply-to', 'link');
             } elseif (isset($data['name'])) {
                 $data['type'] = 'article';
             } else {
