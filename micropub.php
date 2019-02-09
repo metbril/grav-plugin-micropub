@@ -181,13 +181,6 @@ class MicropubPlugin extends Plugin
                 return;
             }
 
-            // Check template
-            $post_template = $dest['template'];
-            if ($post_template == '') {
-                $this->throw_500('Post page template not configured in micropub plugin.');
-                return;
-            }
-    
             /* Everything's cool. Do something with the $data variables
             (such as $data['content'], $data['category'], $data['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
@@ -218,6 +211,13 @@ class MicropubPlugin extends Plugin
             $key = array_search($destination_uid, array_column($destination, 'uid'));
             $dest = $destination[$key];
 
+            // Check template for destination
+            $post_template = $dest['template'];
+            if ($post_template == '') {
+                $this->throw_500('Post page template not configured in micropub plugin.');
+                return;
+            }
+    
             // Remove superfluous keys
             unset($data['h']);
             unset($data['access_token']);
