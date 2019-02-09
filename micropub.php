@@ -229,9 +229,12 @@ class MicropubPlugin extends Plugin
             $data = $this->change_key($data, 'name', 'title');
 
             // Add timestamp to frontmatter
-            $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
-            if ($date_in_frontmatter) {
-                $data['date'] = date('r');
+            $data = $this->change_key($data, 'published', 'date');
+            if (isset($data['date'])) {
+                $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
+                if ($date_in_frontmatter) {
+                    $data['date'] = date('r');
+                }
             }
 
             // Set tags
