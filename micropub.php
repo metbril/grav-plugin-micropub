@@ -252,6 +252,15 @@ class MicropubPlugin extends Plugin
             $content = isset($data["content"]) ? $data["content"] : "";
             unset($data['content']);
 
+            // Sanitize yaml keys; replace dash with underscore
+            $keys = array_keys($data);
+            foreach ($keys as $key) {
+                if (strpos($key, '-') !== FALSE) {
+                    $newkey = str_replace('-','_',$key);
+                    $data = $this->change_key($data, $key, $newkey); 
+                }
+            }
+            
             // Get parent page
             $parent_route = $dest['route'];
             $parent_page = $pages->find($parent_route, true);
