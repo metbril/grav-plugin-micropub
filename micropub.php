@@ -181,6 +181,13 @@ class MicropubPlugin extends Plugin
                 return;
             }
 
+            // Check template
+            $post_template = $dest['template'];
+            if ($post_template == '') {
+                $this->throw_500('Post page template not configured in micropub plugin.');
+                return;
+            }
+    
             /* Everything's cool. Do something with the $data variables
             (such as $data['content'], $data['category'], $data['location'], etc.)
             e.g. create a new entry, store it in a database, whatever. */
@@ -211,45 +218,19 @@ class MicropubPlugin extends Plugin
             $key = array_search($destination_uid, array_column($destination, 'uid'));
             $dest = $destination[$key];
 
-            // Check template
-            $post_template = $dest['template'];
-            if ($post_template == '') {
-                $this->throw_500('Post page template not configured in micropub plugin.');
-                return;
-            }
-    
-            // Get parent
-            $parent_route = $dest['route'];
-            $parent_page = $pages->find($parent_route, true);
-            if ($parent_page === null) {
-                $this->throw_500('Parent page not found: '.$parent_route);
-                return;
-            }
-    
-            // Adhere to Grav standards
-            $data = $this->change_key($data, 'name', 'title');
-            $data = $this->change_key($data, 'mp-slug', 'slug');
-            $data = $this->change_key($data, 'category', 'tag');
-            if (isset($data['tag'])) {
-                $data['taxonomy'] = array('tag' => $data['tag']);
-            }
-
-            // Get content
-            $content = isset($data["content"]) ? $data["content"] : "";
+            // Remove superfluous keys
+            unset($data['h']);
+            unset($data['access_token']);
 
             // Get or set slug
             $slug_date_format = $config->get('plugins.micropub.slug_date_format') ?: 'Y-m-d-H-i';
             $default_slug = date($slug_date_format);
-            // TODO: Make default slug configurable
-
+            $data = $this->change_key($data, 'mp-slug', 'slug');
             $slug = $data["slug"] ?? $default_slug;
-
-            // Remove superfluous keys
-            unset($data['h']);
-            unset($data['access_token']);
-            unset($data['content']);
             unset($data['slug']);
-            unset($data['tag']);
+
+            // Set title to Grav standard
+            $data = $this->change_key($data, 'name', 'title');
 
             // Add timestamp to frontmatter
             $date_in_frontmatter = $config->get('plugins.micropub.date_in_frontmatter') ?: false;
@@ -257,7 +238,26 @@ class MicropubPlugin extends Plugin
                 $data['date'] = date('r');
             }
 
-            // TODO: determine 'default route'
+            // Tags
+            $data = $this->change_key($data, 'category', 'tag');
+            if (isset($data['tag'])) {
+                $data['taxonomy'] = array('tag' => $data['tag']);
+            }
+            unset($data['tag']);
+
+            // Get content
+            $content = isset($data["content"]) ? $data["content"] : "";
+            unset($data['content']);
+
+            // Get parent page
+            $parent_route = $dest['route'];
+            $parent_page = $pages->find($parent_route, true);
+            if ($parent_page === null) {
+                $this->throw_500('Parent page not found: '.$parent_route);
+                return;
+            }
+    
+            // TODO: determine 'default route' (with dated path)
             $route = $parent_route . DS . $slug;
 
             $page = $pages->find($route);
